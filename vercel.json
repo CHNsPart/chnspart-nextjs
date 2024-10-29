@@ -1,14 +1,14 @@
 {
+  "version": 2,
+  "cleanUrls": true,
+  "buildCommand": "next build",
+  "installCommand": "npm install",
+  "framework": "nextjs",
+  "regions": ["iad1"],
   "redirects": [
     {
-      "source": "/:path*",
-      "has": [
-        {
-          "type": "host",
-          "value": "www.chnspart.com"
-        }
-      ],
-      "destination": "https://chnspart.com/:path*",
+      "source": "/www.chnspart.com",
+      "destination": "https://chnspart.com",
       "permanent": true
     }
   ],
@@ -17,16 +17,29 @@
       "source": "/(.*)",
       "headers": [
         {
-          "key": "Strict-Transport-Security",
-          "value": "max-age=31536000; includeSubDomains"
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
         },
         {
           "key": "X-Frame-Options",
           "value": "DENY"
         },
         {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        },
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=31536000; includeSubDomains"
+        }
+      ]
+    },
+    {
+      "source": "/(.+\\.[a-zA-Z]+)$",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
         }
       ]
     }
