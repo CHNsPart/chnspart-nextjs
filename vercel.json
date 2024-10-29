@@ -1,8 +1,14 @@
 {
   "redirects": [
     {
-      "source": "www.chnspart.com",
-      "destination": "chnspart.com",
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.chnspart.com"
+        }
+      ],
+      "destination": "https://chnspart.com/:path*",
       "permanent": true
     }
   ],
