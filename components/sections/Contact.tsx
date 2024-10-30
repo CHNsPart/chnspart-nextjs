@@ -1,27 +1,75 @@
-// File: components/sections/Contact.tsx
+// components/sections/Contact.tsx
 'use client';
 
 import { useState } from 'react';
-import { Send } from 'lucide-react';
+import { Send, Check, AlertCircle, Loader2 } from 'lucide-react';
+
+interface FormState {
+  fullname: string;
+  email: string;
+  message: string;
+}
+
+interface FormStatus {
+  type: 'success' | 'error' | null;
+  message: string;
+}
 
 export default function Contact() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormState>({
     fullname: '',
     email: '',
     message: ''
   });
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [formStatus, setFormStatus] = useState<FormStatus>({ type: null, message: '' });
+
+  const resetForm = () => {
+    setFormData({
+      fullname: '',
+      email: '',
+      message: ''
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Add your form submission logic here
+    setIsLoading(true);
+    setFormStatus({ type: null, message: '' });
+
+    try {
+      const response = await fetch('/api/contacts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit form');
+      }
+
+      setFormStatus({
+        type: 'success',
+        message: 'Thank you! Your message has been sent successfully.'
+      });
+      resetForm();
+    } catch {
+      setFormStatus({
+        type: 'error',
+        message: 'Sorry, there was an error sending your message. Please try again.'
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <article className="active" data-page="contact">
       <header>
-        <h2 className="h2 article-title">
-          Contact
-        </h2>
+        <h2 className="h2 article-title">Contact</h2>
       </header>
 
       <div className="mb-8 h-[250px] md:h-[380px] rounded-2xl border border-[var(--jet)] overflow-hidden">
@@ -38,6 +86,23 @@ export default function Contact() {
 
       <section>
         <h3 className="text-[var(--white-2)] text-xl mb-5">Contact Form</h3>
+
+        {formStatus.type && (
+          <div
+            className={`mb-6 p-4 rounded-xl border ${
+              formStatus.type === 'success'
+                ? 'bg-green-500/10 border-green-500 text-green-500'
+                : 'bg-red-500/10 border-red-500 text-red-500'
+            } flex items-center gap-2`}
+          >
+            {formStatus.type === 'success' ? (
+              <Check size={20} />
+            ) : (
+              <AlertCircle size={20} />
+            )}
+            <p>{formStatus.message}</p>
+          </div>
+        )}
         
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid md:grid-cols-2 gap-6">
@@ -46,8 +111,10 @@ export default function Contact() {
               name="fullname"
               placeholder="Full name"
               required
+              disabled={isLoading}
               className="bg-transparent text-[var(--white-2)] text-sm p-4 border border-[var(--jet)] 
-              rounded-xl outline-none focus:border-[var(--orange-yellow-crayola)]"
+              rounded-xl outline-none focus:border-[var(--orange-yellow-crayola)]
+              disabled:opacity-60 disabled:cursor-not-allowed"
               value={formData.fullname}
               onChange={(e) => setFormData(prev => ({ ...prev, fullname: e.target.value }))}
             />
@@ -57,8 +124,10 @@ export default function Contact() {
               name="email"
               placeholder="Email address"
               required
+              disabled={isLoading}
               className="bg-transparent text-[var(--white-2)] text-sm p-4 border border-[var(--jet)] 
-              rounded-xl outline-none focus:border-[var(--orange-yellow-crayola)]"
+              rounded-xl outline-none focus:border-[var(--orange-yellow-crayola)]
+              disabled:opacity-60 disabled:cursor-not-allowed"
               value={formData.email}
               onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
             />
@@ -68,22 +137,28 @@ export default function Contact() {
             name="message"
             placeholder="Your Message"
             required
+            disabled={isLoading}
             className="w-full min-h-[120px] max-h-[200px] bg-transparent text-[var(--white-2)] text-sm p-4 
             border border-[var(--jet)] rounded-xl outline-none focus:border-[var(--orange-yellow-crayola)]
-            resize-y"
+            resize-y disabled:opacity-60 disabled:cursor-not-allowed"
             value={formData.message}
             onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))}
           />
 
           <button
             type="submit"
+            disabled={isLoading}
             className="gradient-border ml-auto flex items-center gap-2 px-5 py-4 rounded-xl 
             text-[var(--orange-yellow-crayola)] text-sm font-medium transition-all
             hover:bg-gradient-to-br hover:from-[hsl(45,100%,71%)] hover:to-[hsla(36,100%,69%,0)]
-            md:w-max"
+            md:w-max disabled:opacity-60 disabled:cursor-not-allowed"
           >
-            <Send size={18} />
-            <span>Send Message</span>
+            {isLoading ? (
+              <Loader2 size={18} className="animate-spin" />
+            ) : (
+              <Send size={18} />
+            )}
+            <span>{isLoading ? 'Sending...' : 'Send Message'}</span>
           </button>
         </form>
       </section>
