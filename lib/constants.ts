@@ -125,8 +125,11 @@ export const EXPERIENCE = [
       {
         text: "• Ventures -",
         links: [
-          { text: "Omni Attention", url: "https://omniattention.com" },
-          { text: "Flyboarding PTBO", url: "https://flyboarding.pages.dev" },
+          { text: "Omni Attention - Landing Page", url: "https://omniattention.com" },
+          { text: "Omni Attention - Brand Guideline", url: "https://www.behance.net/gallery/211925249/Omni-Attention-Brand-Guideline" },
+          { text: "Omni Attention - Dashboard", url: "https://www.behance.net/gallery/211927479/Omni-Attention-Dashboard" },
+          { text: "Compendium", url: "https://www.behance.net/gallery/211933801/Compendium" },
+          { text: "Flyboarding PTBO", url: "https://flyboardingptbo.vercel.app" },
           { text: "Burning It Down", url: "https://burningitdown.ca" }
         ]
       }
@@ -252,7 +255,7 @@ export const PORTFOLIO_ITEMS = [
     link: "https://chnsui.com"
   },
   {
-    title: "Business Landing Page",
+    title: "OonkoO Landing Page",
     category: "Web development",
     image: "/images/project-oonkoo.png",
     link: "https://oonkoo.com"
@@ -264,10 +267,40 @@ export const PORTFOLIO_ITEMS = [
     link: "https://medicalprone.com"
   },
   {
+    title: "Compendium",
+    category: "Web design",
+    image: "/images/compendium-cc.png",
+    link: "https://www.behance.net/gallery/211933801/Compendium"
+  },
+  {
+    title: "Omni Attention Landing",
+    category: "Web development",
+    image: "/images/omni-landing.png",
+    link: "https://omniattention.com"
+  },
+  {
+    title: "Omni Attention Dashboard",
+    category: "Applications",
+    image: "/images/omni-dash.png",
+    link: "https://www.behance.net/gallery/211927479/Omni-Attention-Dashboard"
+  },
+  {
+    title: "Omni Attention Branding",
+    category: "Web design",
+    image: "/images/omni-bg.png",
+    link: "https://www.behance.net/gallery/211925249/Omni-Attention-Brand-Guideline"
+  },
+  {
     title: "Admin Panel",
     category: "Web development",
     image: "/images/project-11.png",
     link: "https://www.behance.net/gallery/180955839/Admin-Panel-Dashboard"
+  },
+  {
+    title: "Fly-Boarding Peterborough",
+    category: "Web development",
+    image: "/images/flyptbo.png",
+    link: "https://flyboardingptbo.vercel.app"
   },
   {
     title: "Secure-Nest Security",
