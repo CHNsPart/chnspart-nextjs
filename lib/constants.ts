@@ -267,6 +267,12 @@ export const PORTFOLIO_ITEMS = [
     link: "https://medicalprone.com"
   },
   {
+    title: "Papia - Portfolio",
+    category: "Web development",
+    image: "/images/papia.png",
+    link: "https://nusratpapia.com"
+  },
+  {
     title: "Compendium",
     category: "Web design",
     image: "/images/compendium-cc.png",
@@ -319,6 +325,12 @@ export const PORTFOLIO_ITEMS = [
     category: "Web development",
     image: "/images/brokerstatus.png",
     link: "https://brokerstatus-client.vercel.app"
+  },
+  {
+    title: "Ageless",
+    category: "Web development",
+    image: "/images/ageless.png",
+    link: "https://ageless-jade.vercel.app/"
   },
   {
     title: "Mindshare Dashboard",
