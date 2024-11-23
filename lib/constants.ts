@@ -264,13 +264,19 @@ export const PORTFOLIO_ITEMS = [
     title: "ML Application",
     category: "Web development",
     image: "/images/project-1.png",
-    link: "https://medicalprone.com"
+    link: "https://medical-prone.vercel.app"
   },
   {
     title: "Papia - Portfolio",
     category: "Web development",
     image: "/images/papia.png",
     link: "https://nusratpapia.com"
+  },
+  {
+    title: "Ontario Pulse",
+    category: "Web development",
+    image: "/images/ontariopulse.png",
+    link: "https://ontariopulse.com"
   },
   {
     title: "Compendium",
