@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { BookOpen, Briefcase, Code } from 'lucide-react';
 import { TimelineItem, DescriptionItem, Link } from '@/types';
 
@@ -86,16 +87,27 @@ export const Timeline = ({ title, icon, items }: TimelineProps) => {
 
   return (
     <section className="timeline mb-8">
-      <div className="title-wrapper">
+      <motion.div 
+        className="title-wrapper"
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
         <div className="icon-box">
           <Icon size={16} />
         </div>
         <h3 className="h3 font-bold">{title}</h3>
-      </div>
+      </motion.div>
 
       <ol className="timeline-list">
         {items.map((item, index) => (
-          <li key={index} className="timeline-item">
+          <motion.li 
+            key={index} 
+            className="timeline-item"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: index * 0.1 }}
+          >
             <div className="flex items-baseline gap-2">
               {item.url ? (
                 <a 
@@ -128,7 +140,7 @@ export const Timeline = ({ title, icon, items }: TimelineProps) => {
                 {renderDescription(item.description)}
               </div>
             )}
-          </li>
+          </motion.li>
         ))}
       </ol>
     </section>

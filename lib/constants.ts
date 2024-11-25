@@ -193,6 +193,7 @@ export const EXPERIENCE = [
     title: "YY Ventures",
     role: "UI/UX Designer",
     period: "2021 JUL - 2021 Dec",
+    url: "https://yy.ventures",
     description: [
       "• Built Client-based UI design with Figma",
       "• Built brand-guideline of multiple startups.",
@@ -212,6 +213,7 @@ export const EXPERIENCE = [
     title: "Ban Base",
     role: "UI/UX & Software Engineer",
     period: "2021 JUL - 2022 MAY",
+    url: "https://www.banbase.nl/",
     description: [
       "• Built Client-based UI and Frontend Development with React.JS, Material UI and axios.",
       "• Built Backend with Express.JS for REST API with CRUD operation.",

@@ -5,6 +5,7 @@ import Sidebar from './Sidebar';
 import Navbar from './Navbar';
 import { ReactNode } from 'react';
 import { useLayout } from '@/app/contexts/LayoutContext';
+import { PageTransition } from '../shared/PageTransition';
 
 interface MainLayoutProps {
   children: ReactNode;
@@ -25,8 +26,10 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
         ${isDesktop ? 'min-w-[75%] w-[75%]' : 'w-full'}
         m-0
       `}>
-        <Navbar />
-        {children}
+        <PageTransition>
+          <Navbar />
+          {children}
+        </PageTransition>
       </div>
     </main>
   );
