@@ -21,13 +21,13 @@ export default function Navbar() {
   }, [pathname]);
 
   return (
-    <nav className="navbar">
-      <ul className="navbar-list">
+    <nav className="navbar z-50">
+      <ul className="z-50 navbar-list">
         {navItems.map((item) => (
-          <li key={item.label} className="navbar-item">
+          <li key={item.label} className="z-50 navbar-item">
             <Link
               href={item.href}
-              className={`navbar-link ${activeItem === item.label ? 'active' : ''}`}
+              className={`navbar-link z-50 ${activeItem === item.label ? 'active' : ''}`}
               onClick={() => setActiveItem(item.label)}
             >
               {item.label}

@@ -16,7 +16,7 @@ export default function Portfolio() {
   );
 
   return (
-    <article className="active" data-page="portfolio">
+    <article className="active relative z-0 pb-20" data-page="portfolio">
       <header>
         <h2 className="h2 article-title">
           Portfolio
