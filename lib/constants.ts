@@ -263,22 +263,40 @@ export const PORTFOLIO_ITEMS = [
     link: "https://oonkoo.com"
   },
   {
-    title: "ML Application",
-    category: "Web development",
-    image: "/images/project-1.png",
-    link: "https://medical-prone.vercel.app"
-  },
-  {
     title: "Papia - Portfolio",
     category: "Web development",
     image: "/images/papia.png",
     link: "https://nusratpapia.com"
   },
   {
+    title: "WhoWorksWhen",
+    category: "Web development",
+    image: "/images/www.png",
+    link: "https://whoworkswhen.com"
+  },
+  {
+    title: "Lienzo",
+    category: "Web development",
+    image: "/images/lienzo.png",
+    link: "https://lienzoapp.vercel.app/"
+  },
+  {
+    title: "StayScore",
+    category: "Web development",
+    image: "/images/stayscore.png",
+    link: "https://stayscore.vercel.app/"
+  },
+  {
     title: "Ontario Pulse",
     category: "Web development",
     image: "/images/ontariopulse.png",
     link: "https://ontariopulse.com"
+  },
+  {
+    title: "Anita - Portfolio",
+    category: "Web development",
+    image: "/images/anitaislam.png",
+    link: "https://anitaislam.com"
   },
   {
     title: "Compendium",
@@ -294,7 +312,7 @@ export const PORTFOLIO_ITEMS = [
   },
   {
     title: "Omni Attention Dashboard",
-    category: "Applications",
+    category: "Web design",
     image: "/images/omni-dash.png",
     link: "https://www.behance.net/gallery/211927479/Omni-Attention-Dashboard"
   },
@@ -321,6 +339,12 @@ export const PORTFOLIO_ITEMS = [
     category: "Web development",
     image: "/images/secure_nest.png",
     link: "https://secure-nest.vercel.app"
+  },
+  {
+    title: "ML Application",
+    category: "Web development",
+    image: "/images/project-1.png",
+    link: "https://medical-prone.vercel.app"
   },
   {
     title: "GTA-Group E-Commerce",
