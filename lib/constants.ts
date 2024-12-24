@@ -259,7 +259,7 @@ export const PORTFOLIO_ITEMS = [
   {
     title: "OonkoO Landing Page",
     category: "Web development",
-    image: "/images/project-oonkoo.png",
+    image: "/images/oonkoo-current.png",
     link: "https://oonkoo.com"
   },
   {
@@ -411,6 +411,18 @@ export const PORTFOLIO_ITEMS = [
     category: "Applications",
     image: "/images/project-8.jpg",
     link: "https://www.behance.net/gallery/125571951/Dashboard-UI-of-DD-AD"
+  },
+  {
+    title: "OonkoO V1",
+    category: "Web development",
+    image: "/images/project-oonkoo.png",
+    link: "https://oonkoo-landing-v1.pages.dev/"
+  },
+  {
+    title: "OonkoO preview",
+    category: "Web development",
+    image: "/images/oonkoo-preview.png",
+    link: "https://oonkoo-cs.pages.dev/"
   },
   {
     title: "3 Zero Club",
