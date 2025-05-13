@@ -70,12 +70,24 @@ export const CLIENTS = [
 export const EDUCATION: TimelineItem[] = [
   {
     title: "Sir Sandford Fleming College",
-    period: "2023 — 2025",
-    description: "PGD in School of Business and IT (Wireless Information Networking)"
+    period: "2023 — 2025 | CGPA - 3.554",
+    description: [
+      "PGD in School of Business and IT (Wireless Information Networking)",
+      {
+        text: "Final Client Project",
+        description: "Developed a web application for a client using Next.JS 150, TypeScript, and Tailwind CSS. A platform for managing software licenses, including features like user authentication, license store management, license management, and a dashboard for tracking license usage for 4 types of users.",
+        links: [
+          {
+            text: "Lienzo | Web Application",
+            url: "https://lienzoapp.vercel.app/"
+          }
+        ]
+      }
+    ]
   },
   {
     title: "BRAC University",
-    period: "2017 — 2022",
+    period: "2017 — 2022  | CGPA - 3.05",
     description: [
       "Bachelor of Science in Computer Science & Engineering (CSE)",
       {
@@ -123,14 +135,26 @@ export const EXPERIENCE = [
       "• Managed day-to-day technical operations, led the technical team.",
       "• Supervised the UI/UX design process, delivering a modern, user-friendly interface aligned with company branding.",
       {
+        text: "Client Projects -",
+        links: [
+          { text: "Compendium", url: "https://www.behance.net/gallery/211933801/Compendium" },
+          { text: "Flyboarding PTBO", url: "https://flyboardingptbo.vercel.app" },
+          { text: "Burning It Down", url: "https://burningitdown.ca" },
+          { text: "Elan Platform", url: "https://elanroadtestrental.ca/" },
+          { text: "Elan Blog Site", url: "https://blog.elanroadtestrental.ca/" },
+          { text: "Elan Branding", url: "https://www.behance.net/gallery/221693271/Elan-Brand-Guideline" }
+        ]
+      },
+      {
         text: "• Ventures -",
         links: [
           { text: "Omni Attention - Landing Page", url: "https://omniattention.com" },
           { text: "Omni Attention - Brand Guideline", url: "https://www.behance.net/gallery/211925249/Omni-Attention-Brand-Guideline" },
           { text: "Omni Attention - Dashboard", url: "https://www.behance.net/gallery/211927479/Omni-Attention-Dashboard" },
-          { text: "Compendium", url: "https://www.behance.net/gallery/211933801/Compendium" },
-          { text: "Flyboarding PTBO", url: "https://flyboardingptbo.vercel.app" },
-          { text: "Burning It Down", url: "https://burningitdown.ca" }
+          { text: "WhoWorksWhen", url: "https://whoworkswhen.com" },
+          { text: "StayScore", url: "https://stayscore.vercel.app/" },
+          { text: "Ontario Pulse", url: "https://ontariopulse.com" },
+          { text: "Kolom AI", url: "https://kolom.ai" },
         ]
       }
     ]
@@ -257,10 +281,40 @@ export const PORTFOLIO_ITEMS = [
     link: "https://chnsui.com"
   },
   {
-    title: "OonkoO Landing Page",
+    title: "OonkoO 2025 Platform",
+    category: "Web development",
+    image: "/images/oonkoo-neo.png",
+    link: "https://oonkoo.com/"
+  },
+  {
+    title: "Elan Branding",
+    category: "Web design",
+    image: "/images/elan-branding.png",
+    link: "https://www.behance.net/gallery/221693271/Elan-Brand-Guideline"
+  },
+  {
+    title: "Elan Blog Site",
+    category: "Web development",
+    image: "/images/elan-blog.png",
+    link: "https://blog.elanroadtestrental.ca/"
+  },
+  {
+    title: "Elan Client Site",
+    category: "Web development",
+    image: "/images/elan-client.png",
+    link: "https://elanroadtestrental.ca/"
+  },
+  {
+    title: "Lienzo",
+    category: "Web development",
+    image: "/images/lienzo.png",
+    link: "https://lienzoapp.vercel.app/"
+  },
+  {
+    title: "OonkoO V3 Landing Page",
     category: "Web development",
     image: "/images/oonkoo-current.png",
-    link: "https://oonkoo.com"
+    link: "https://oonkoo-v3.vercel.app/"
   },
   {
     title: "Papia - Portfolio",
@@ -273,12 +327,6 @@ export const PORTFOLIO_ITEMS = [
     category: "Web development",
     image: "/images/www.png",
     link: "https://whoworkswhen.com"
-  },
-  {
-    title: "Lienzo",
-    category: "Web development",
-    image: "/images/lienzo.png",
-    link: "https://lienzoapp.vercel.app/"
   },
   {
     title: "StayScore",
