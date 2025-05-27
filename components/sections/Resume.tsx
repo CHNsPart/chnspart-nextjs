@@ -9,7 +9,7 @@ import { EDUCATION, EXPERIENCE, TECH_STACK, SKILLS } from "@/lib/constants";
 export default function Resume() {
   const handleDownload = () => {
     // Replace this URL with your actual resume PDF URL
-    const resumeUrl = "/resume/Touhidul Islam CV - 2024.pdf";
+    const resumeUrl = "/resume/TIC_Resume_2025.pdf";
     window.open(resumeUrl, '_blank');
   };
 
