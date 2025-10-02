@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion';
 import { BookOpen, Briefcase, Code } from 'lucide-react';
 import { TimelineItem, DescriptionItem, Link } from '@/types';
+import { LinkPreview } from '@/components/ui/link-preview';
+import React from 'react';
 
 interface TimelineProps {
   title: string;
@@ -14,13 +16,11 @@ export const Timeline = ({ title, icon, items }: TimelineProps) => {
   const renderLinks = (links: Link[], separator: string = " ") => {
     return links.map((link, index) => (
       <span key={index} className='hover:underline hover:underline-offset-2'>
-        <a 
-          href={link.url} 
-          target="_blank" 
-          rel="noopener noreferrer" 
+        <a
+          href={link.url}
           className="links-only"
         >
-          ♦ {link.text}
+          ▶  {link.text}
         </a>
         {index < links.length - 1 && separator}
       </span>
@@ -66,7 +66,7 @@ export const Timeline = ({ title, icon, items }: TimelineProps) => {
                 )}
 
                 {desc.link && (
-                  <div className="ml-4 inline-flex gap-2">
+                  <div className="ml-4 inline-flex gap-2 flex-wrap">
                     {renderLinks(Array.isArray(desc.link) ? desc.link : [desc.link])}
                   </div>
                 )}
@@ -110,14 +110,12 @@ export const Timeline = ({ title, icon, items }: TimelineProps) => {
           >
             <div className="flex items-baseline gap-2">
               {item.url ? (
-                <a 
-                  href={item.url} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
+                <LinkPreview 
+                  url={item.url}
                   className="h4 exp-title font-bold hover:underline hover:underline-offset-2"
                 >
                   {item.title}
-                </a>
+                </LinkPreview>
               ) : (
                 <h4 className="h4 timeline-item-title font-bold">
                   {item.title}

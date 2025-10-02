@@ -70,12 +70,12 @@ export const CLIENTS = [
 export const EDUCATION: TimelineItem[] = [
   {
     title: "Sir Sandford Fleming College",
-    period: "2023 — 2025 | CGPA - 3.554",
+    period: "2023 – 2025 | CGPA - 3.554",
     description: [
       "PGD in School of Business and IT (Wireless Information Networking)",
       {
         text: "Final Client Project",
-        description: "Developed a web application for a client using Next.JS 150, TypeScript, and Tailwind CSS. A platform for managing software licenses, including features like user authentication, license store management, license management, and a dashboard for tracking license usage for 4 types of users.",
+        description: "Developed a web application for a client using Next.JS 15, TypeScript, and Tailwind CSS. A platform for managing software licenses, including features like user authentication, license store management, license management, and a dashboard for tracking license usage for 4 types of users.",
         links: [
           {
             text: "Lienzo | Web Application",
@@ -87,7 +87,7 @@ export const EDUCATION: TimelineItem[] = [
   },
   {
     title: "BRAC University",
-    period: "2017 — 2022  | CGPA - 3.05",
+    period: "2017 – 2022  | CGPA - 3.05",
     description: [
       "Bachelor of Science in Computer Science & Engineering (CSE)",
       {
@@ -112,21 +112,46 @@ export const EDUCATION: TimelineItem[] = [
   },
   {
     title: "Dhaka City College",
-    period: "2014 — 2016",
+    period: "2014 – 2016",
     description: "Higher Secondary Certificate in Science"
   },
   {
     title: "Mohammadpur Model School & College",
-    period: "2010 — 2014",
+    period: "2010 – 2014",
     description: "Secondary School Certificate in Science"
   }
 ];
 
-export const EXPERIENCE = [
+export const VENTURES: TimelineItem[] = [
+  {
+    title: "OonkoO",
+    role: "Co-Founder & CTO",
+    period: "2023 JUN - Present",
+    url: "https://oonkoo.com",
+    description: [
+      "• Spearheaded the development of custom software solutions and scalable architecture tailored to client needs across diverse industries.",
+      "• Managed the end-to-end development of mobile applications, focusing on both native and cross-platform technologies for seamless user experiences.",
+      "• Led a global team of developers and designers, ensuring effective collaboration and timely delivery of high-quality IT solutions.",
+      "• Oversaw UI/UX design, web development, and e-commerce solutions, focusing on creating responsive websites and intuitive user interfaces.",
+      "• Delivered brand strategy, content creation, and SEO optimization services to enhance client visibility and drive business growth.",
+      {
+        text: "• Product -",
+        links: [
+          { text: "OonkoO", url: "https://oonkoo.com" },
+          { text: "WhoWorksWhen", url: "https://whoworkswhen.com" },
+          { text: "Sopee AI", url: "https://sopee-ai.vercel.app" },
+          { text: "Orbanas", url: "https://orbanas.com" },
+          { text: "Broker Portal", url: "https://brokerstatus-client.vercel.app/" },
+          { text: "TalkPDF", url: "https://talk-pdf-zeta.vercel.app/" },
+          { text: "Ageless", url: "https://ageless-jade.vercel.app/" }
+        ]
+      }
+    ]
+  },
   {
     title: "Omni Attention",
     role: "Co-Founder & CTO",
-    period: "2023 AUG - Present",
+    period: "2023 AUG - 2024 Dec (Discontiniued)",
     url: "https://omniattention.com",
     description: [
       "• Led the design and development of the admin panel, website, and Android app, enhancing usability and functionality for real-time ad performance and content management.",
@@ -158,30 +183,47 @@ export const EXPERIENCE = [
         ]
       }
     ]
-  },
+  }
+];
+
+export const FREELANCE: TimelineItem[] = [
   {
-    title: "OonkoO",
-    role: "Co-Founder & CTO",
-    period: "2023 JUN - Present",
-    url: "https://oonkoo.com",
+    title: "Y Drive (Canada) UI Redesign",
+    role: "UI/UX Engineer",
+    period: "2025 May",
+    url: "https://www.ydriveapp.com/",
     description: [
-      "• Spearheaded the development of custom software solutions and scalable architecture tailored to client needs across diverse industries.",
-      "• Managed the end-to-end development of mobile applications, focusing on both native and cross-platform technologies for seamless user experiences.",
-      "• Led a global team of developers and designers, ensuring effective collaboration and timely delivery of high-quality IT solutions.",
-      "• Oversaw UI/UX design, web development, and e-commerce solutions, focusing on creating responsive websites and intuitive user interfaces.",
-      "• Delivered brand strategy, content creation, and SEO optimization services to enhance client visibility and drive business growth.",
+      "• Led the complete UI redesign of the Y Drive app, enhancing user experience and visual appeal.",
+      "• Collaborated closely with the CEO to understand their vision and requirements, ensuring the redesign aligned with their brand identity.",
+      "• Delivered 3 high-fidelity UI with prototypes using Figma for the mobile app (Funcky & Bold, Minimal & Professional, Hybrid).",
       {
-        text: "• Product -",
+        text: "• UI Versions -",
         links: [
-          { text: "OonkoO", url: "https://oonkoo.com" },
-          { text: "Ageless", url: "https://ageless.oonkoo.com" },
-          { text: "TalkPDF", url: "https://talkpdf.oonkoo.com" },
-          { text: "WhoWorksWhen", url: "https://whoworkswhen.oonkoo.com" },
-          { text: "Broker Portal", url: "https://broker.oonkoo.com" }
+          { text: "Y Drive UI Redesign | Funcky & Bold", url: "https://www.figma.com/proto/VI9nRhw8ozv7qBMwGaGmID/Y-Dive?t=G9subqK9diINPiCo-1&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&node-id=1-3&starting-point-node-id=1%3A3" },
+          { text: "Y Drive UI Redesign | Minimal & Professional", url: "https://www.figma.com/proto/VI9nRhw8ozv7qBMwGaGmID/Y-Dive?node-id=41-388&p=f&t=srxTnXXQNxXFXpKV-1&scaling=scale-down&content-scaling=fixed&page-id=41%3A387&starting-point-node-id=41%3A388" },
+          { text: "Y Drive UI Redesign | Hybrid", url: "https://www.figma.com/proto/VI9nRhw8ozv7qBMwGaGmID/Y-Dive?node-id=101-312&p=f&t=uu6YQ5XjHu70Moox-1&scaling=min-zoom&content-scaling=fixed&page-id=82%3A94&starting-point-node-id=101%3A312" },
         ]
       }
     ]
   },
+  {
+    title: "Fleming College Equipment Request System",
+    role: "Team Lead & Full Stack Developer",
+    period: "2024 DEC - 2025 FEB",
+    url: "https://flemingcollege.ca/",
+    description: [
+      "• Developed a responsive portfolio website using Next.JS 13, TypeScript, and Tailwind CSS, ensuring optimal performance and user experience across devices.",
+      {
+        text: "• Website -",
+        links: [
+          { text: "Fleming College Equipment Request System", url: "https://fleming-erm.vercel.app/" },
+        ]
+      }
+    ]
+  }
+];
+
+export const PROFESSIONAL_EXPERIENCE: TimelineItem[] = [
   {
     title: "City Group",
     role: "ML & Software Engineer",
@@ -271,7 +313,7 @@ export const EXPERIENCE = [
       }
     ]
   }
-] as TimelineItem[];
+];
 
 export const PORTFOLIO_ITEMS = [
   {
@@ -285,6 +327,18 @@ export const PORTFOLIO_ITEMS = [
     category: "Web development",
     image: "/images/oonkoo-neo.png",
     link: "https://oonkoo.com/"
+  },
+  {
+    title: "Sopee.ai",
+    category: "Web development",
+    image: "/images/sopee.png",
+    link: "https://sopee-ai.vercel.app"
+  },
+  {
+    title: "Orbanas IT Agency",
+    category: "Web development",
+    image: "/images/orbanas.png",
+    link: "https://orbanas.com/"
   },
   {
     title: "Elan Branding",
@@ -339,6 +393,12 @@ export const PORTFOLIO_ITEMS = [
     category: "Web development",
     image: "/images/ontariopulse.png",
     link: "https://ontariopulse.com"
+  },
+  {
+    title: "Fleming College Equipment Request",
+    category: "Web development",
+    image: "/images/fleming-ers.png",
+    link: "https://fleming-erm.vercel.app/"
   },
   {
     title: "Anita - Portfolio",

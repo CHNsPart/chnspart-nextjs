@@ -97,8 +97,8 @@ export default function Sidebar() {
               <Calendar size={16} />
             </div>
             <div className="contact-info">
-              <p className="contact-title">Birthyear</p>
-              <time dateTime="1998">1998</time>
+              <p className="contact-title">Experience</p>
+              <time dateTime="1998">7+ Years</time>
             </div>
           </li>
 
