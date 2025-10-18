@@ -2152,6 +2152,44 @@ textarea.form-input::-webkit-resizer {
   }
 
   /**
+   * Brand Color Slider Styles
+   */
+
+  /* WebKit browsers (Chrome, Safari) */
+  input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--orange-yellow-crayola);
+    cursor: pointer;
+    box-shadow: 0 0 0 4px var(--eerie-black-2), 0 0 0 5px var(--jet);
+    transition: all 0.2s ease;
+  }
+
+  input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 4px var(--eerie-black-2), 0 0 0 5px var(--orange-yellow-crayola), 0 0 10px var(--orange-yellow-crayola);
+  }
+
+  /* Firefox */
+  input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--orange-yellow-crayola);
+    cursor: pointer;
+    border: 4px solid var(--eerie-black-2);
+    box-shadow: 0 0 0 1px var(--jet);
+    transition: all 0.2s ease;
+  }
+
+  input[type="range"]::-moz-range-thumb:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 1px var(--orange-yellow-crayola), 0 0 10px var(--orange-yellow-crayola);
+  }
+
+  /**
    * REUSED STYLE
    */
 

@@ -12,12 +12,16 @@ const nextConfig = {
 
   // Image configuration
   images: {
-    domains: ['i.ibb.co'],
+    domains: ['i.ibb.co', 'api.microlink.io'],
     unoptimized: false,
     remotePatterns: [
       {
         protocol: 'https',
         hostname: 'i.ibb.co',
+      },
+      {
+        protocol: 'https',
+        hostname: 'api.microlink.io',
       }
     ],
   },

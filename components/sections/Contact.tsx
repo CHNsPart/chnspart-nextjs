@@ -31,20 +31,6 @@ const PROJECT_TYPE_LABELS: { [key: string]: string } = {
   'branding': 'Branding'
 };
 
-const TIMELINE_OPTIONS: { [key: string]: string } = {
-  '1m': 'Within 1 month',
-  '1-3': '1-3 months',
-  '3-6': '3-6 months',
-  '6+': '6+ months'
-};
-
-const BUDGET_OPTIONS: { [key: string]: string } = {
-  'xs': '$1.5k - $5k',
-  'sm': '$5k - $10k',
-  'md': '$10k - $25k',
-  'lg': '$25k+'
-};
-
 export default function Contact() {
   const [formData, setFormData] = useState<FormState>({
     fullname: '',
@@ -59,6 +45,8 @@ export default function Contact() {
 
   const [isLoading, setIsLoading] = useState(false);
   const [formStatus, setFormStatus] = useState<FormStatus>({ type: null, message: '' });
+  const [sliderValue, setSliderValue] = useState(0);
+  const [isVerified, setIsVerified] = useState(false);
 
   const resetForm = () => {
     setFormData({
@@ -71,6 +59,33 @@ export default function Contact() {
       requirements: '',
       honeypot: ''
     });
+    setSliderValue(0);
+    setIsVerified(false);
+  };
+
+  // Handle slider change for human verification
+  const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(e.target.value);
+    setSliderValue(value);
+
+    // Check if slider is close to target (95-100 for brand color)
+    if (value >= 95 && value <= 100) {
+      setIsVerified(true);
+    } else {
+      setIsVerified(false);
+    }
+  };
+
+  // Get color based on slider value
+  const getSliderColor = () => {
+    if (isVerified) {
+      return 'hsl(45, 100%, 72%)'; // Brand color
+    }
+    // Interpolate from gray to brand color
+    const hue = 0 + (sliderValue * 0.45); // 0 to 45
+    const saturation = sliderValue; // 0% to 100%
+    const lightness = 50 + (sliderValue * 0.22); // 50% to 72%
+    return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
   };
 
   const validateForm = (data: FormState): boolean => {
@@ -114,58 +129,34 @@ export default function Contact() {
     e.preventDefault();
     setIsLoading(true);
     setFormStatus({ type: null, message: '' });
-  
+
     if (!validateForm(formData)) {
       setIsLoading(false);
       return;
     }
-  
-    try {
-      // Create form submit URL
-      const formUrl = 'https://docs.google.com/forms/d/e/1FAIpQLScKMwZpRmMZAHgmEhCGr6iL5XWINlk9X4BQu35XqOrDc7zT_w/formResponse';
-      
-      // Create form
-      const form = document.createElement('form');
-      form.method = 'POST';
-      form.action = formUrl;
-      form.target = '_blank';
-      
-      const formFields = {
-        // Full Name
-        'entry.762586258': formData.fullname,
-        // Email
-        'entry.1748605394': formData.email,
-        // Project Type  
-        'entry.837080776': PROJECT_TYPE_LABELS[formData.projectType] || formData.projectType,
-        // Timeline - use the mapping
-        'entry.1344926538': TIMELINE_OPTIONS[formData.timeline] || '',
-        // Budget Range - use the mapping
-        'entry.1364809760': BUDGET_OPTIONS[formData.budget] || '',
-        // Project Brief
-        'entry.237065250': formData.message,
-        // Technical Requirements
-        'entry.319233900': formData.requirements || 'Not specified',
-        // Required metadata
-        'fvv': '1',
-        'partialResponse': '[null,null,"7764873195851155049"]',
-        'pageHistory': '0',
-        'fbzx': '7764873195851155049'
-      };
 
-      // Create form inputs
-      Object.entries(formFields).forEach(([key, value]) => {
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = key;
-        input.value = value as string;
-        form.appendChild(input);
+    try {
+      // Submit to Prisma API
+      const response = await fetch('/api/contacts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          fullname: formData.fullname,
+          email: formData.email,
+          projectType: formData.projectType,
+          timeline: formData.timeline,
+          budget: formData.budget,
+          message: formData.message,
+          requirements: formData.requirements || '',
+        }),
       });
-  
-      // Add form to document and submit
-      document.body.appendChild(form);
-      form.submit();
-      document.body.removeChild(form);
-  
+
+      if (!response.ok) {
+        throw new Error('Failed to submit form');
+      }
+
       // Show success message
       setFormStatus({
         type: 'success',
@@ -407,19 +398,92 @@ export default function Contact() {
             />
           </motion.div>
 
-          
+          {/* Human Verification Slider */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.95 }}
+            className="relative"
+          >
+            <div className="flex items-center justify-between mb-3">
+              <label className="text-[var(--white-2)] text-sm font-medium flex items-center gap-2">
+                {isVerified ? (
+                  <>
+                    <Check size={18} className="text-green-500" />
+                    <span className="text-green-500">Verified! You&apos;re human 🎉</span>
+                  </>
+                ) : (
+                  <>
+                    <span>Slide to match my brand color</span>
+                  </>
+                )}
+              </label>
+            </div>
+
+            <div className="relative">
+              {/* Slider Track */}
+              <input
+                type="range"
+                min="0"
+                max="100"
+                value={sliderValue}
+                onChange={handleSliderChange}
+                disabled={isLoading}
+                className="w-full h-3 rounded-full appearance-none cursor-pointer transition-all
+                disabled:opacity-60 disabled:cursor-not-allowed"
+                style={{
+                  background: `linear-gradient(to right,
+                    ${getSliderColor()} 0%,
+                    ${getSliderColor()} ${sliderValue}%,
+                    var(--jet) ${sliderValue}%,
+                    var(--jet) 100%)`,
+                }}
+              />
+
+              {/* Target Indicator */}
+              <div
+                className="absolute top-1/2 -translate-y-1/2 bg-[var(--orange-yellow-crayola)] opacity-30 pointer-events-none rounded"
+                style={{ right: '0%' }}
+              />
+
+              {/* Visual Feedback */}
+              <div className="flex items-center justify-between mt-2 text-xs">
+                <span className="text-[var(--light-gray-70)]">Gray</span>
+                <span
+                  className="text-[var(--orange-yellow-crayola)] font-medium transition-opacity"
+                  style={{ opacity: isVerified ? 1 : 0.3 }}
+                >
+                  CHNsBrand Color ✨
+                </span>
+              </div>
+            </div>
+
+            {!isVerified && sliderValue > 0 && (
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="text-[var(--light-gray-70)] text-xs mt-2 text-center"
+              >
+                {sliderValue < 50 ? "Keep sliding right..." :
+                 sliderValue < 85 ? "Getting closer!" :
+                 sliderValue < 95 ? "Almost there!" : "Just a bit more!"}
+              </motion.p>
+            )}
+          </motion.div>
+
+
           <motion.button
             type="submit"
-            disabled={isLoading}
-            className="gradient-border ml-auto flex items-center gap-2 px-5 py-4 rounded-xl 
+            disabled={isLoading || !isVerified}
+            className="gradient-border ml-auto flex items-center gap-2 px-5 py-4 rounded-xl
             hover:text-[var(--eerie-black-1)] text-[var(--orange-yellow-crayola)] text-sm font-medium transition-all
             hover:bg-gradient-to-br hover:from-[hsl(45,100%,71%)] hover:to-[hsla(36,100%,69%,0)]
             md:w-max disabled:opacity-60 disabled:cursor-not-allowed"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.0 }}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
+            whileHover={isVerified ? { scale: 1.02 } : {}}
+            whileTap={isVerified ? { scale: 0.98 } : {}}
           >
             {isLoading ? (
               <Loader2 size={18} className="animate-spin" />

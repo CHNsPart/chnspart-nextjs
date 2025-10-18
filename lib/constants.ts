@@ -135,15 +135,26 @@ export const VENTURES: TimelineItem[] = [
       "• Oversaw UI/UX design, web development, and e-commerce solutions, focusing on creating responsive websites and intuitive user interfaces.",
       "• Delivered brand strategy, content creation, and SEO optimization services to enhance client visibility and drive business growth.",
       {
-        text: "• Product -",
+        text: "• Products -",
         links: [
           { text: "OonkoO", url: "https://oonkoo.com" },
           { text: "WhoWorksWhen", url: "https://whoworkswhen.com" },
           { text: "Sopee AI", url: "https://sopee-ai.vercel.app" },
           { text: "Orbanas", url: "https://orbanas.com" },
-          { text: "Broker Portal", url: "https://brokerstatus-client.vercel.app/" },
           { text: "TalkPDF", url: "https://talk-pdf-zeta.vercel.app/" },
-          { text: "Ageless", url: "https://ageless-jade.vercel.app/" }
+          { text: "StayScore", url: "https://stayscore.vercel.app/" },
+          { text: "Ontario Pulse", url: "https://ontariopulse.com" },
+          { text: "Kolom AI", url: "https://kolom.ai" },
+        ]
+      },
+      {
+        text: "• Clients -",
+        links: [
+          { text: "Ageless", url: "https://ageless-jade.vercel.app/" },
+          { text: "Broker Portal", url: "https://brokerstatus-client.vercel.app/" },
+          { text: "Elan Platform", url: "https://elanroadtestrental.ca/" },
+          { text: "Elan Blog Site", url: "https://blog.elanroadtestrental.ca/" },
+          { text: "Elan Branding", url: "https://www.behance.net/gallery/221693271/Elan-Brand-Guideline" },
         ]
       }
     ]
@@ -164,10 +175,7 @@ export const VENTURES: TimelineItem[] = [
         links: [
           { text: "Compendium", url: "https://www.behance.net/gallery/211933801/Compendium" },
           { text: "Flyboarding PTBO", url: "https://flyboardingptbo.vercel.app" },
-          { text: "Burning It Down", url: "https://burningitdown.ca" },
-          { text: "Elan Platform", url: "https://elanroadtestrental.ca/" },
-          { text: "Elan Blog Site", url: "https://blog.elanroadtestrental.ca/" },
-          { text: "Elan Branding", url: "https://www.behance.net/gallery/221693271/Elan-Brand-Guideline" }
+          { text: "Burning It Down", url: "https://burningitdown.ca" }
         ]
       },
       {
@@ -176,10 +184,6 @@ export const VENTURES: TimelineItem[] = [
           { text: "Omni Attention - Landing Page", url: "https://omniattention.com" },
           { text: "Omni Attention - Brand Guideline", url: "https://www.behance.net/gallery/211925249/Omni-Attention-Brand-Guideline" },
           { text: "Omni Attention - Dashboard", url: "https://www.behance.net/gallery/211927479/Omni-Attention-Dashboard" },
-          { text: "WhoWorksWhen", url: "https://whoworkswhen.com" },
-          { text: "StayScore", url: "https://stayscore.vercel.app/" },
-          { text: "Ontario Pulse", url: "https://ontariopulse.com" },
-          { text: "Kolom AI", url: "https://kolom.ai" },
         ]
       }
     ]
@@ -345,6 +349,12 @@ export const PORTFOLIO_ITEMS = [
     category: "Web design",
     image: "/images/elan-branding.png",
     link: "https://www.behance.net/gallery/221693271/Elan-Brand-Guideline"
+  },
+  {
+    title: "Kolom AI",
+    category: "Web development",
+    image: "/images/kolom.png",
+    link: "https://kolom.ai"
   },
   {
     title: "Elan Blog Site",
