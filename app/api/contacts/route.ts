@@ -1,6 +1,7 @@
 import { prisma } from '@/lib/prisma';
 import { NextResponse } from 'next/server';
 import { sendContactFormEmails } from '@/lib/email';
+import { createOrUpdateClient } from '@/lib/client-service';
 
 export async function POST(request: Request) {
   try {
@@ -26,6 +27,25 @@ export async function POST(request: Request) {
         requirements: data.requirements || null,
       },
     });
+
+    // Auto-create or update client and project
+    // This runs async but we await it to ensure client is created
+    try {
+      const clientResult = await createOrUpdateClient({
+        fullname: data.fullname,
+        email: data.email,
+        projectType: data.projectType,
+        timeline: data.timeline,
+        budget: data.budget,
+        message: data.message,
+        requirements: data.requirements,
+      }, contact.id);
+      console.log('✅ Client created/updated successfully:', clientResult.client.email);
+    } catch (clientError) {
+      // Log but don't fail the contact creation
+      console.error('❌ Failed to create/update client:', clientError);
+      console.error('Error details:', JSON.stringify(clientError, null, 2));
+    }
 
     // Send emails (don't await to avoid blocking response)
     // Emails are sent asynchronously and failures won't block the submission

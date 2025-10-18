@@ -18,4 +18,72 @@ model Contact {
   requirements String?
   createdAt    DateTime @default(now())
   status       String   @default("new")
+  clientId     String?
+  client       Client?  @relation(fields: [clientId], references: [id])
+  project      Project?
+}
+
+model Client {
+  id               String          @id @default(uuid())
+  email            String          @unique
+  fullname         String
+  company          String?
+  industry         String?
+  website          String?
+  companySize      String?
+  location         String?
+  phone            String?
+  linkedin         String?
+  twitter          String?
+  preferredContact String?
+  notes            String?
+  status           String          @default("lead")
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+  categories       ClientCategory?
+  tags             ClientTag[]
+  contacts         Contact[]
+  projects         Project[]
+}
+
+model Project {
+  id            String    @id @default(uuid())
+  clientId      String
+  contactId     String    @unique
+  projectType   String
+  timeline      String
+  budget        String
+  message       String
+  requirements  String?
+  status        String    @default("inquiry")
+  startDate     DateTime?
+  completedDate DateTime?
+  actualBudget  String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  client        Client    @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  contact       Contact   @relation(fields: [contactId], references: [id])
+}
+
+model ClientTag {
+  id        String   @id @default(uuid())
+  clientId  String
+  tag       String
+  createdAt DateTime @default(now())
+  client    Client   @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  @@unique([clientId, tag])
+  @@index([tag])
+}
+
+model ClientCategory {
+  id           String   @id @default(uuid())
+  clientId     String   @unique
+  budgetTier   String?
+  industry     String?
+  projectStage String   @default("inquiry")
+  priority     String   @default("medium")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  client       Client   @relation(fields: [clientId], references: [id], onDelete: Cascade)
 }
