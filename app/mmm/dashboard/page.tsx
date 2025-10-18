@@ -6,7 +6,7 @@ import { formatDate } from '@/lib/utils';
 import { Loader2, AlertCircle } from 'lucide-react';
 
 interface Contact {
-  id: number;
+  id: string;
   fullname: string;
   email: string;
   projectType: string;
@@ -50,8 +50,8 @@ export default function Dashboard() {
   const [error, setError] = useState<string | null>(null);
   const [statusFilter, setStatusFilter] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
-  const [updating, setUpdating] = useState<number | null>(null);
-  const [deleting, setDeleting] = useState<number | null>(null);
+  const [updating, setUpdating] = useState<string | null>(null);
+  const [deleting, setDeleting] = useState<string | null>(null);
 
   // Helper functions to get display labels
   const getProjectTypeLabel = (code: string): string => {
@@ -85,7 +85,7 @@ export default function Dashboard() {
     }
   };
 
-  const updateStatus = async (id: number, status: string) => {
+  const updateStatus = async (id: string, status: string) => {
     try {
       setUpdating(id);
       const res = await fetch(`/api/contacts/${id}`, {
@@ -112,7 +112,7 @@ export default function Dashboard() {
     }
   };
 
-  const deleteContact = async (id: number) => {
+  const deleteContact = async (id: string) => {
     if (!confirm('Are you sure you want to delete this contact?')) return;
     
     try {

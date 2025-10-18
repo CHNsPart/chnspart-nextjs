@@ -8,11 +8,11 @@ export async function PUT(
   try {
     const { status } = await request.json();
     const contact = await prisma.contact.update({
-      where: { 
-        id: Number(params.id)
+      where: {
+        id: params.id
       },
-      data: { 
-        status 
+      data: {
+        status
       },
     });
     return NextResponse.json(contact);
@@ -31,8 +31,8 @@ export async function DELETE(
 ) {
   try {
     const contact = await prisma.contact.delete({
-      where: { 
-        id: Number(params.id)
+      where: {
+        id: params.id
       },
     });
     return NextResponse.json(contact);

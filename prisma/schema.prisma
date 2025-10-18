@@ -8,7 +8,7 @@ datasource db {
 }
 
 model Contact {
-  id           Int      @id @default(autoincrement())
+  id           String   @id @default(uuid())
   fullname     String
   email        String
   projectType  String
