@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { getClients } from '@/lib/client-service';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: Request) {
   try {
     console.log('📥 GET /api/clients - Request received');
