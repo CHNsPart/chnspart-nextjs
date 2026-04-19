@@ -89,13 +89,13 @@ export async function POST(request: Request) {
       console.error('Error details:', JSON.stringify(clientError, null, 2));
     }
 
-    // Send emails (don't await to avoid blocking response)
-    sendContactFormEmails({
+    // Await emails so the serverless runtime stays alive long enough to send them.
+    // sendContactFormEmails uses Promise.allSettled internally — it never throws,
+    // so a slow/failing email never breaks the form submission.
+    await sendContactFormEmails({
       ...contactPayload,
       clientId,
       tags: getAutoTags(contactPayload),
-    }).catch((error) => {
-      console.error('Failed to send emails:', error);
     });
 
     return NextResponse.json(contact);

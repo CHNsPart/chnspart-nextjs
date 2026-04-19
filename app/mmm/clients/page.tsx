@@ -63,7 +63,7 @@ export default function ClientsPage() {
 
   const fetchClients = async () => {
     try {
-      const res = await fetch('/api/clients');
+      const res = await fetch('/api/clients', { cache: 'no-store' });
       if (!res.ok) throw new Error('Failed to fetch clients');
       const data = await res.json();
       setClients(data);

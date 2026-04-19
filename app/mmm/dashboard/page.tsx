@@ -49,7 +49,7 @@ export default function Dashboard() {
 
   const fetchContacts = async () => {
     try {
-      const res = await fetch('/api/contacts');
+      const res = await fetch('/api/contacts', { cache: 'no-store' });
       if (!res.ok) throw new Error('Failed to fetch contacts');
       const data = await res.json();
       setContacts(data);

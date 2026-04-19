@@ -106,7 +106,7 @@ export default function ClientDetailPage() {
 
   const fetchClient = useCallback(async () => {
     try {
-      const res = await fetch(`/api/clients/${params.id}`);
+      const res = await fetch(`/api/clients/${params.id}`, { cache: 'no-store' });
       if (!res.ok) throw new Error('Failed to fetch client');
       const data = await res.json();
       setClient(data);
