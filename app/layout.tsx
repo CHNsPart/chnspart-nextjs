@@ -3,6 +3,7 @@ import { Poppins } from 'next/font/google';
 import Script from 'next/script';
 import "./globals.css";
 import { Providers } from "./providers/Providers";
+import { VisitorBeacon } from "@/components/analytics/VisitorBeacon";
 
 
 export const viewport: Viewport = {
@@ -75,6 +76,7 @@ export default function RootLayout({
         <Providers>
           {children}
         </Providers>
+        <VisitorBeacon />
       </body>
     </html>
   );

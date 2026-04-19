@@ -2,7 +2,7 @@
 
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { LayoutDashboard, Users, LogOut, Filter, Menu, X } from 'lucide-react';
+import { LayoutDashboard, Users, LogOut, Filter, Menu, X, Eye } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
@@ -18,6 +18,7 @@ const navItems: NavItem[] = [
   { href: '/mmm/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/mmm/clients', label: 'Clients', icon: Users },
   { href: '/mmm/campaigns', label: 'Campaigns', icon: Filter },
+  { href: '/mmm/visitors', label: 'Visitors', icon: Eye },
 ];
 
 function SidebarBrand() {

@@ -87,3 +87,19 @@ model ClientCategory {
   updatedAt    DateTime @updatedAt
   client       Client   @relation(fields: [clientId], references: [id], onDelete: Cascade)
 }
+
+model PageView {
+  id          String   @id @default(uuid())
+  path        String
+  referrer    String?
+  country     String?
+  city        String?
+  device      String?
+  sessionHash String?
+  isBot       Boolean  @default(false)
+  createdAt   DateTime @default(now())
+
+  @@index([path])
+  @@index([createdAt])
+  @@index([sessionHash])
+}
