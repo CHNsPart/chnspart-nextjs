@@ -1,10 +1,14 @@
 import { NextResponse } from 'next/server';
 import { addClientTag, removeClientTag } from '@/lib/client-service';
+import { requireAdmin } from '@/lib/auth-guard';
 
 export async function POST(
   request: Request,
   { params }: { params: { id: string } }
 ) {
+  const unauthorized = await requireAdmin();
+  if (unauthorized) return unauthorized;
+
   try {
     const { tag } = await request.json();
 
@@ -30,6 +34,9 @@ export async function DELETE(
   request: Request,
   { params }: { params: { id: string } }
 ) {
+  const unauthorized = await requireAdmin();
+  if (unauthorized) return unauthorized;
+
   try {
     const { tag } = await request.json();
 

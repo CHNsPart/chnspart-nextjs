@@ -2,8 +2,33 @@ import { prisma } from '@/lib/prisma';
 import { NextResponse } from 'next/server';
 import { sendContactFormEmails } from '@/lib/email';
 import { createOrUpdateClient, getAutoTags } from '@/lib/client-service';
+import { requireAdmin } from '@/lib/auth-guard';
+import { rateLimit } from '@/lib/rate-limit';
+
+// 5 submissions per IP per hour — spams Resend and DB otherwise.
+const CONTACT_MAX_PER_HOUR = 5;
+const CONTACT_WINDOW_MS = 60 * 60 * 1000;
+
+// Payload size caps to keep hostile bodies from filling the DB.
+const MAX_MESSAGE_LEN = 5_000;
+const MAX_REQUIREMENTS_LEN = 10_000;
+const MAX_FIELD_LEN = 500;
 
 export async function POST(request: Request) {
+  const ip =
+    request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+    request.headers.get('x-real-ip') ||
+    '';
+  if (ip) {
+    const limit = rateLimit(`contact:${ip}`, CONTACT_MAX_PER_HOUR, CONTACT_WINDOW_MS);
+    if (!limit.ok) {
+      return NextResponse.json(
+        { error: 'Too many submissions. Please try again later.' },
+        { status: 429, headers: { 'Retry-After': String(limit.retryAfter) } }
+      );
+    }
+  }
+
   try {
     const data = await request.json();
 
@@ -12,6 +37,22 @@ export async function POST(request: Request) {
       return NextResponse.json(
         { error: 'Missing required fields' },
         { status: 400 }
+      );
+    }
+
+    // Validate payload sizes — stop oversized garbage before it hits Prisma.
+    if (
+      typeof data.fullname !== 'string' || data.fullname.length > MAX_FIELD_LEN ||
+      typeof data.email !== 'string' || data.email.length > MAX_FIELD_LEN ||
+      typeof data.projectType !== 'string' || data.projectType.length > MAX_FIELD_LEN ||
+      typeof data.timeline !== 'string' || data.timeline.length > MAX_FIELD_LEN ||
+      typeof data.budget !== 'string' || data.budget.length > MAX_FIELD_LEN ||
+      typeof data.message !== 'string' || data.message.length > MAX_MESSAGE_LEN ||
+      (data.requirements != null && (typeof data.requirements !== 'string' || data.requirements.length > MAX_REQUIREMENTS_LEN))
+    ) {
+      return NextResponse.json(
+        { error: 'Payload exceeds allowed size' },
+        { status: 413 }
       );
     }
 
@@ -68,6 +109,9 @@ export async function POST(request: Request) {
 }
 
 export async function GET() {
+  const unauthorized = await requireAdmin();
+  if (unauthorized) return unauthorized;
+
   try {
     const contacts = await prisma.contact.findMany({
       orderBy: { createdAt: 'desc' },

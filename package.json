@@ -8,7 +8,10 @@
     "start": "next start",
     "lint": "next lint",
     "postinstall": "prisma generate --no-engine",
-    "prisma:update": "npx prisma generate && npx prisma db push"
+    "prisma:update": "npx prisma generate && npx prisma db push",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@prisma/client": "^6.17.1",
@@ -38,11 +41,14 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@vitest/coverage-v8": "^4.1.4",
     "eslint": "^8",
     "eslint-config-next": "14.2.16",
     "postcss": "^8",
     "prisma": "^6.17.1",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^4.1.4",
+    "vitest-mock-extended": "^4.0.0"
   }
 }

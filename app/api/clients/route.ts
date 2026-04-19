@@ -1,9 +1,13 @@
 import { NextResponse } from 'next/server';
 import { getClients } from '@/lib/client-service';
+import { requireAdmin } from '@/lib/auth-guard';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET(request: Request) {
+  const unauthorized = await requireAdmin();
+  if (unauthorized) return unauthorized;
+
   try {
     console.log('📥 GET /api/clients - Request received');
     const { searchParams } = new URL(request.url);

@@ -1,18 +1,18 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { verifyToken } from '@/lib/auth';
 
-export function middleware(request: NextRequest) {
-  // Check if it's an admin route
+export async function middleware(request: NextRequest) {
   if (request.nextUrl.pathname.startsWith('/mmm')) {
-    // Skip the login page itself
+    // Login page itself is always accessible
     if (request.nextUrl.pathname === '/mmm') {
       return NextResponse.next();
     }
 
-    const authToken = request.cookies.get('admin-token');
-    
-    if (!authToken) {
-      // Redirect to login if no token
+    const token = request.cookies.get('admin-token')?.value;
+
+    if (!token || !(await verifyToken(token))) {
+      // Invalid or missing token — redirect to login
       return NextResponse.redirect(new URL('/mmm', request.url));
     }
   }
@@ -21,5 +21,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/mmm/:path*']
+  matcher: ['/mmm/:path*'],
 };

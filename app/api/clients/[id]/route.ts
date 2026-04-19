@@ -1,10 +1,14 @@
 import { NextResponse } from 'next/server';
 import { getClientById, updateClient } from '@/lib/client-service';
+import { requireAdmin } from '@/lib/auth-guard';
 
 export async function GET(
   _request: Request,
   { params }: { params: { id: string } }
 ) {
+  const unauthorized = await requireAdmin();
+  if (unauthorized) return unauthorized;
+
   try {
     const client = await getClientById(params.id);
 
@@ -29,6 +33,9 @@ export async function PUT(
   request: Request,
   { params }: { params: { id: string } }
 ) {
+  const unauthorized = await requireAdmin();
+  if (unauthorized) return unauthorized;
+
   try {
     const data = await request.json();
 

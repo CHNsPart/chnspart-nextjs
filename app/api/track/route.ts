@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { createHash } from 'crypto';
 import { prisma } from '@/lib/prisma';
+import { rateLimit } from '@/lib/rate-limit';
 
 export const dynamic = 'force-dynamic';
 
@@ -11,10 +12,6 @@ const RATE_MAX_PER_IP = 30;        // per-IP burst limit per window
 const BOT_UA_PATTERN = /bot|crawl|spider|slurp|mediapartners|facebookexternalhit|preview|lighthouse|headless/i;
 
 // --- Module-level state (persists within a warm serverless instance) ---
-
-type RateBucket = { count: number; resetAt: number };
-const rateBuckets = new Map<string, RateBucket>();
-let lastRateCleanupAt = 0;
 
 let daily = {
   date: '',            // UTC yyyy-mm-dd
@@ -32,33 +29,6 @@ function detectDevice(ua: string): string {
   if (/mobile|iphone|android.*mobile/i.test(ua)) return 'mobile';
   if (/ipad|tablet/i.test(ua)) return 'tablet';
   return 'desktop';
-}
-
-/**
- * In-memory per-IP rate limit. Best-effort across serverless instances —
- * imperfect but effectively blocks casual spam, and the DAILY_CAP is the real backstop.
- */
-function isRateLimited(ip: string): boolean {
-  if (!ip) return false; // local dev or missing header — don't block
-
-  const now = Date.now();
-
-  // Lazy cleanup once per window to keep the map bounded.
-  if (now - lastRateCleanupAt > RATE_WINDOW_MS) {
-    lastRateCleanupAt = now;
-    rateBuckets.forEach((v, k) => {
-      if (v.resetAt < now) rateBuckets.delete(k);
-    });
-  }
-
-  const bucket = rateBuckets.get(ip);
-  if (!bucket || bucket.resetAt < now) {
-    rateBuckets.set(ip, { count: 1, resetAt: now + RATE_WINDOW_MS });
-    return false;
-  }
-  if (bucket.count >= RATE_MAX_PER_IP) return true;
-  bucket.count++;
-  return false;
 }
 
 /**
@@ -116,8 +86,14 @@ export async function POST(request: Request) {
       headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
       headers.get('x-real-ip') ||
       '';
-    if (isRateLimited(ip)) {
-      return new NextResponse(null, { status: 429 });
+    if (ip) {
+      const limit = rateLimit(`track:${ip}`, RATE_MAX_PER_IP, RATE_WINDOW_MS);
+      if (!limit.ok) {
+        return new NextResponse(null, {
+          status: 429,
+          headers: { 'Retry-After': String(limit.retryAfter) },
+        });
+      }
     }
 
     // 3) Parse and validate payload.

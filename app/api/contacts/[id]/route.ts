@@ -1,10 +1,14 @@
 import { prisma } from '@/lib/prisma';
 import { NextResponse } from 'next/server';
+import { requireAdmin } from '@/lib/auth-guard';
 
 export async function PUT(
   request: Request,
   { params }: { params: { id: string } }
 ) {
+  const unauthorized = await requireAdmin();
+  if (unauthorized) return unauthorized;
+
   try {
     const { status } = await request.json();
     const contact = await prisma.contact.update({
@@ -29,6 +33,9 @@ export async function DELETE(
   _request: Request,
   { params }: { params: { id: string } }
 ) {
+  const unauthorized = await requireAdmin();
+  if (unauthorized) return unauthorized;
+
   try {
     const contact = await prisma.contact.delete({
       where: {
