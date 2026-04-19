@@ -124,6 +124,22 @@ export const EDUCATION: TimelineItem[] = [
 
 export const VENTURES: TimelineItem[] = [
   {
+    title: "Kolom Technologies LTD.",
+    role: "Co-Founder & Head of Design & Web",
+    period: "2026 FEB - Present",
+    url: "https://kolom.ltd",
+    description: [
+      "• Oversee design and web architecture across the company's products and client engagements.",
+      "• Direct UI/UX, brand system, and web infrastructure decisions to ensure consistency across every shipped surface.",
+      {
+        text: "• Products -",
+        links: [
+          { text: "Kolom.ai — AI-based byte-size news platform", url: "https://kolom.ai" }
+        ]
+      }
+    ]
+  },
+  {
     title: "OonkoO",
     role: "Co-Founder & CTO",
     period: "2023 JUN - Present",
@@ -134,17 +150,18 @@ export const VENTURES: TimelineItem[] = [
       "• Led a global team of developers and designers, ensuring effective collaboration and timely delivery of high-quality IT solutions.",
       "• Oversaw UI/UX design, web development, and e-commerce solutions, focusing on creating responsive websites and intuitive user interfaces.",
       "• Delivered brand strategy, content creation, and SEO optimization services to enhance client visibility and drive business growth.",
+      "• Launched OonkoO UI, a high-quality React-based UI block platform where developers can submit, buy, and sell UI blocks, powered by OonkoO's predefined UI elements and a custom CLI.",
       {
         text: "• Products -",
         links: [
           { text: "OonkoO", url: "https://oonkoo.com" },
+          { text: "OonkoO UI", url: "https://ui.oonkoo.com" },
           { text: "WhoWorksWhen", url: "https://whoworkswhen.com" },
           { text: "Sopee AI", url: "https://sopee-ai.vercel.app" },
           { text: "Orbanas", url: "https://orbanas-landing.vercel.app" },
           { text: "TalkPDF", url: "https://talk-pdf-zeta.vercel.app" },
           { text: "StayScore", url: "https://stayscore.vercel.app" },
           { text: "Ontario Pulse", url: "https://ontariopulse.com" },
-          { text: "Kolom AI", url: "https://kolom.ai" },
         ]
       },
       {
@@ -228,6 +245,17 @@ export const FREELANCE: TimelineItem[] = [
 ];
 
 export const PROFESSIONAL_EXPERIENCE: TimelineItem[] = [
+  {
+    title: "RentZoro",
+    role: "Senior Software Engineer",
+    period: "2026 JAN - PRESENT",
+    url: "https://rentzoro.ca",
+    description: [
+      "• Building core platform features with Next.JS, TypeScript, and Vercel at this North York, Ontario–based tenant screening platform serving property owners and managers.",
+      "• Built ZoroSign, an in-house e-signature system, and the proprietary zoroScore algorithm with Plaid API integration for financial risk scoring.",
+      "• Shipped Express Screen for instant tenant verification across income, credit, identity, and background checks — serving thousands of Canadian landlords."
+    ]
+  },
   {
     title: "City Group",
     role: "ML & Software Engineer",
@@ -321,13 +349,13 @@ export const PROFESSIONAL_EXPERIENCE: TimelineItem[] = [
 
 export const PORTFOLIO_ITEMS = [
   {
-    title: "CHNsUI Library",
-    category: "Open source",
-    image: "/images/project-chnsui.png",
-    link: "https://chnsui.com"
+    title: "Taqneo",
+    category: "Web development",
+    image: "/images/taqneo.png",
+    link: "#"
   },
   {
-    title: "OonkoO 2025 Platform",
+    title: "OonkoO Platform",
     category: "Web development",
     image: "/images/oonkoo-neo.png",
     link: "https://oonkoo.com/"
@@ -337,6 +365,30 @@ export const PORTFOLIO_ITEMS = [
     category: "Web development",
     image: "/images/sopee.png",
     link: "https://sopee-ai.vercel.app"
+  },
+  {
+    title: "CHNsUI Library",
+    category: "Open source",
+    image: "/images/project-chnsui.png",
+    link: "https://chnsui.com"
+  },
+  {
+    title: "Neo ID",
+    category: "Web development",
+    image: "/images/neo-id.png",
+    link: "https://www.neo-id.com"
+  },
+  {
+    title: "OonkoO UI",
+    category: "Web development",
+    image: "/images/oonkoo-ui.png",
+    link: "https://ui.oonkoo.com"
+  },
+  {
+    title: "Ranin International",
+    category: "Web development",
+    image: "/images/ranin.png",
+    link: "https://ranininternational.com/"
   },
   {
     title: "Orbanas IT Agency",
@@ -384,7 +436,7 @@ export const PORTFOLIO_ITEMS = [
     title: "Papia - Portfolio",
     category: "Web development",
     image: "/images/papia.png",
-    link: "https://nusratpapia.com"
+    link: "https://papia-portfolio.vercel.app"
   },
   {
     title: "WhoWorksWhen",
@@ -408,13 +460,13 @@ export const PORTFOLIO_ITEMS = [
     title: "Fleming College Equipment Request",
     category: "Web development",
     image: "/images/fleming-ers.png",
-    link: "https://fleming-erm.vercel.app/"
+    link: "https://fleming-erm.vercel.app"
   },
   {
     title: "Anita - Portfolio",
     category: "Web development",
     image: "/images/anitaislam.png",
-    link: "https://anitaislam.com"
+    link: "https://anita-portfolio-mu.vercel.app"
   },
   {
     title: "Compendium",
