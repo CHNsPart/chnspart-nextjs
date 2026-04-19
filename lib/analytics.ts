@@ -32,21 +32,40 @@ export async function getAnalyticsSnapshot(days = 30): Promise<AnalyticsSnapshot
   const monthStart = new Date(todayStart.getTime() - 29 * DAY_MS);
   const rangeStart = new Date(todayStart.getTime() - (days - 1) * DAY_MS);
 
-  const [totalViews, uniqueRows, todayViews, weekViews, monthViews, windowRows] = await Promise.all([
-    prisma.pageView.count({ where: { isBot: false } }),
-    prisma.$queryRaw<Array<{ count: bigint }>>`
-      SELECT COUNT(DISTINCT "sessionHash")::bigint AS count
-      FROM "PageView"
-      WHERE "isBot" = false AND "sessionHash" IS NOT NULL
-    `,
-    prisma.pageView.count({ where: { isBot: false, createdAt: { gte: todayStart } } }),
-    prisma.pageView.count({ where: { isBot: false, createdAt: { gte: weekStart } } }),
-    prisma.pageView.count({ where: { isBot: false, createdAt: { gte: monthStart } } }),
-    prisma.pageView.findMany({
-      where: { isBot: false, createdAt: { gte: rangeStart } },
-      select: { path: true, referrer: true, country: true, device: true, sessionHash: true, createdAt: true },
-    }),
-  ]);
+  const [totalViewsRes, uniqueRowsRes, todayViewsRes, weekViewsRes, monthViewsRes, windowRowsRes] =
+    await Promise.allSettled([
+      prisma.pageView.count({ where: { isBot: false } }),
+      prisma.$queryRaw<Array<{ count: bigint | number }>>`
+        SELECT COUNT(DISTINCT "sessionHash") AS count
+        FROM "public"."PageView"
+        WHERE "isBot" = false AND "sessionHash" IS NOT NULL
+      `,
+      prisma.pageView.count({ where: { isBot: false, createdAt: { gte: todayStart } } }),
+      prisma.pageView.count({ where: { isBot: false, createdAt: { gte: weekStart } } }),
+      prisma.pageView.count({ where: { isBot: false, createdAt: { gte: monthStart } } }),
+      prisma.pageView.findMany({
+        where: { isBot: false, createdAt: { gte: rangeStart } },
+        select: { path: true, referrer: true, country: true, device: true, sessionHash: true, createdAt: true },
+      }),
+    ]);
+
+  const settled = <T,>(r: PromiseSettledResult<T>, fallback: T, label: string): T => {
+    if (r.status === 'fulfilled') return r.value;
+    console.error(`[analytics] ${label} failed:`, r.reason);
+    return fallback;
+  };
+
+  const totalViews = settled(totalViewsRes, 0, 'totalViews');
+  const uniqueRows = settled(uniqueRowsRes, [] as Array<{ count: bigint | number }>, 'uniqueVisitors');
+  const todayViews = settled(todayViewsRes, 0, 'todayViews');
+  const weekViews = settled(weekViewsRes, 0, 'weekViews');
+  const monthViews = settled(monthViewsRes, 0, 'monthViews');
+  const windowRows = settled(
+    windowRowsRes,
+    [] as Array<{ path: string; referrer: string | null; country: string | null; device: string | null; sessionHash: string | null; createdAt: Date }>,
+    'windowRows'
+  );
+
   const uniqueVisitors = Number(uniqueRows[0]?.count ?? 0);
 
   // Build daily buckets
