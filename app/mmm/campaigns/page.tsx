@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from 'react';
 import { Loader2, Download, Mail, Tag, Users, Filter, X } from 'lucide-react';
+import { AdminPage, AdminPageHeader } from '@/components/layout/AdminPage';
 
 interface Client {
   id: string;
@@ -322,47 +323,43 @@ export default function CampaignsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[var(--smoky-black)] p-6">
-      <div className="max-w-[1400px] mx-auto">
-        {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-6">
+    <AdminPage>
+      <AdminPageHeader
+        title="Campaign Manager"
+        description="Filter and export client lists for marketing campaigns."
+        actions={
+          <div className="text-right">
+            <p className="text-sm text-[var(--light-gray-70)]">Total Clients</p>
+            <p className="text-3xl font-bold text-[var(--orange-yellow-crayola)]">{clients.length}</p>
+          </div>
+        }
+      />
+
+      {/* Results Summary */}
+      <div className="p-4 bg-[var(--eerie-black-2)] border border-[var(--jet)] rounded-xl">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <Users className="text-[var(--orange-yellow-crayola)]" size={24} />
             <div>
-              <h1 className="text-3xl font-bold text-[var(--white-2)] mb-2">Campaign Manager</h1>
-              <p className="text-[var(--light-gray-70)]">Filter and export client lists for marketing campaigns</p>
-            </div>
-            <div className="text-right">
-              <p className="text-sm text-[var(--light-gray-70)]">Total Clients</p>
-              <p className="text-3xl font-bold text-[var(--orange-yellow-crayola)]">{clients.length}</p>
+              <p className="text-[var(--light-gray-70)] text-sm">Filtered Results</p>
+              <p className="text-2xl font-bold text-[var(--white-2)]">{filteredClients.length}</p>
             </div>
           </div>
-
-          {/* Results Summary */}
-          <div className="p-4 bg-[var(--eerie-black-2)] border border-[var(--jet)] rounded-xl">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <Users className="text-[var(--orange-yellow-crayola)]" size={24} />
-                <div>
-                  <p className="text-[var(--light-gray-70)] text-sm">Filtered Results</p>
-                  <p className="text-2xl font-bold text-[var(--white-2)]">{filteredClients.length}</p>
-                </div>
-              </div>
-              {(selectedTags.length > 0 || selectedBudgets.length > 0 || selectedIndustries.length > 0 ||
-                selectedProjectTypes.length > 0 || selectedStatuses.length > 0 || selectedPriorities.length > 0 ||
-                selectedStages.length > 0 || dateFrom || dateTo) && (
-                <button
-                  onClick={clearFilters}
-                  className="flex items-center gap-2 px-4 py-2 bg-[var(--jet)] text-[var(--white-2)] rounded-lg hover:bg-[var(--onyx)] transition-colors"
-                >
-                  <X size={16} />
-                  Clear All Filters
-                </button>
-              )}
-            </div>
-          </div>
+          {(selectedTags.length > 0 || selectedBudgets.length > 0 || selectedIndustries.length > 0 ||
+            selectedProjectTypes.length > 0 || selectedStatuses.length > 0 || selectedPriorities.length > 0 ||
+            selectedStages.length > 0 || dateFrom || dateTo) && (
+            <button
+              onClick={clearFilters}
+              className="flex items-center gap-2 px-4 py-2 bg-[var(--jet)] text-[var(--white-2)] rounded-lg hover:bg-[var(--onyx)] transition-colors"
+            >
+              <X size={16} />
+              Clear All Filters
+            </button>
+          )}
         </div>
+      </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Filters Panel */}
           <div className="lg:col-span-1">
             <div className="sticky top-6 space-y-4">
@@ -763,7 +760,6 @@ export default function CampaignsPage() {
             </div>
           </div>
         </div>
-      </div>
-    </div>
+    </AdminPage>
   );
 }

@@ -15,22 +15,31 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  {
-    href: '/mmm/dashboard',
-    label: 'Dashboard',
-    icon: LayoutDashboard
-  },
-  {
-    href: '/mmm/clients',
-    label: 'Clients',
-    icon: Users
-  },
-  {
-    href: '/mmm/campaigns',
-    label: 'Campaigns',
-    icon: Filter
-  }
+  { href: '/mmm/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { href: '/mmm/clients', label: 'Clients', icon: Users },
+  { href: '/mmm/campaigns', label: 'Campaigns', icon: Filter },
 ];
+
+function SidebarBrand() {
+  return (
+    <div className="flex items-center gap-3 px-6 py-8 border-b border-[var(--jet)]">
+      <div className="relative">
+        <Image
+          src="/images/favicon.ico"
+          alt="CHNsPart Logo"
+          width={40}
+          height={40}
+          className="object-contain"
+        />
+        <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-[var(--eerie-black-2)]" />
+      </div>
+      <div>
+        <h2 className="text-[var(--orange-yellow-crayola)] text-2xl font-bold">CHNsPart</h2>
+        <p className="text-[var(--light-gray-70)] text-xs">Admin Panel</p>
+      </div>
+    </div>
+  );
+}
 
 export function AdminLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -42,42 +51,27 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
     router.push('/mmm');
   };
 
-  // Close mobile menu when route changes
   useEffect(() => {
     setIsMobileMenuOpen(false);
   }, [pathname]);
 
-  // Prevent body scroll when mobile menu is open
   useEffect(() => {
-    if (isMobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
+    document.body.style.overflow = isMobileMenuOpen ? 'hidden' : 'unset';
     return () => {
       document.body.style.overflow = 'unset';
     };
   }, [isMobileMenuOpen]);
 
-  // If we're on the login page, don't show the layout
   if (pathname === '/mmm') return children;
 
   return (
-    <div className="flex min-h-screen">
+    <div className="min-h-screen bg-[var(--smoky-black)] lg:grid lg:grid-cols-[18rem_minmax(0,1fr)]">
       {/* Mobile Header */}
       <div className="lg:hidden fixed top-0 left-0 right-0 z-40 bg-[var(--eerie-black-2)] border-b border-[var(--jet)] px-4 py-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Image
-              src="/images/favicon.ico"
-              alt="CHNsPart Logo"
-              width={32}
-              height={32}
-              className="object-contain"
-            />
-            <h2 className="text-[var(--orange-yellow-crayola)] text-xl font-semibold">
-              CHNsPart
-            </h2>
+            <Image src="/images/favicon.ico" alt="CHNsPart Logo" width={32} height={32} className="object-contain" />
+            <h2 className="text-[var(--orange-yellow-crayola)] text-xl font-semibold">CHNsPart</h2>
           </div>
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -89,7 +83,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
         </div>
       </div>
 
-      {/* Mobile Menu Overlay */}
+      {/* Mobile Overlay */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
@@ -103,27 +97,9 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
         )}
       </AnimatePresence>
 
-      {/* Sidebar - Desktop */}
-      <aside className="hidden lg:flex lg:flex-col lg:w-72 bg-[var(--eerie-black-2)] border-r border-[var(--jet)] fixed left-0 top-0 bottom-0 z-30">
-        <div className="flex items-center gap-3 px-6 py-8 border-b border-[var(--jet)]">
-          <div className="relative">
-            <Image
-              src="/images/favicon.ico"
-              alt="CHNsPart Logo"
-              width={40}
-              height={40}
-              className="object-contain"
-            />
-            <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-[var(--eerie-black-2)]" />
-          </div>
-          <div>
-            <h2 className="text-[var(--orange-yellow-crayola)] text-2xl font-bold">
-              CHNsPart
-            </h2>
-            <p className="text-[var(--light-gray-70)] text-xs">Admin Panel</p>
-          </div>
-        </div>
-
+      {/* Desktop Sidebar */}
+      <aside className="hidden lg:flex lg:flex-col sticky top-0 h-screen z-30 bg-[var(--eerie-black-2)] border-r border-[var(--jet)]">
+        <SidebarBrand />
         <nav className="flex-1 flex flex-col px-4 py-6 overflow-y-auto">
           <div className="space-y-1">
             {navItems.map((item) => {
@@ -144,13 +120,10 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
                     <motion.div
                       layoutId="activeTab"
                       className="absolute inset-0 bg-[var(--orange-yellow-crayola)] rounded-xl"
-                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                      transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
                     />
                   )}
-                  <item.icon
-                    size={20}
-                    className={`relative z-10 ${isActive ? 'stroke-[2.5]' : ''}`}
-                  />
+                  <item.icon size={20} className={`relative z-10 ${isActive ? 'stroke-[2.5]' : ''}`} />
                   <span className={`relative z-10 font-medium ${isActive ? 'font-semibold' : ''}`}>
                     {item.label}
                   </span>
@@ -161,7 +134,6 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
               );
             })}
           </div>
-
           <div className="mt-auto pt-6 border-t border-[var(--jet)]">
             <button
               onClick={handleLogout}
@@ -175,7 +147,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
         </nav>
       </aside>
 
-      {/* Sidebar - Mobile */}
+      {/* Mobile Drawer */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.aside
@@ -185,25 +157,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
             className="lg:hidden fixed left-0 top-0 bottom-0 w-72 bg-[var(--eerie-black-2)] border-r border-[var(--jet)] z-50 overflow-y-auto"
           >
-            <div className="flex items-center gap-3 px-6 py-8 border-b border-[var(--jet)]">
-              <div className="relative">
-                <Image
-                  src="/images/favicon.ico"
-                  alt="CHNsPart Logo"
-                  width={40}
-                  height={40}
-                  className="object-contain"
-                />
-                <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-[var(--eerie-black-2)]" />
-              </div>
-              <div>
-                <h2 className="text-[var(--orange-yellow-crayola)] text-2xl font-bold">
-                  CHNsPart
-                </h2>
-                <p className="text-[var(--light-gray-70)] text-xs">Admin Panel</p>
-              </div>
-            </div>
-
+            <SidebarBrand />
             <nav className="flex flex-col px-4 py-6">
               <div className="space-y-1">
                 {navItems.map((item, index) => {
@@ -225,22 +179,15 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
                           }
                         `}
                       >
-                        <item.icon
-                          size={20}
-                          className={`${isActive ? 'stroke-[2.5]' : ''}`}
-                        />
+                        <item.icon size={20} className={isActive ? 'stroke-[2.5]' : ''} />
                         <span className={`font-medium ${isActive ? 'font-semibold' : ''}`}>
                           {item.label}
                         </span>
-                        {!isActive && (
-                          <div className="absolute left-0 w-1 h-8 bg-[var(--orange-yellow-crayola)] rounded-r-full opacity-0 group-hover:opacity-100 transition-opacity" />
-                        )}
                       </Link>
                     </motion.div>
                   );
                 })}
               </div>
-
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -261,12 +208,10 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
         )}
       </AnimatePresence>
 
-      {/* Main Content */}
-      <div className="flex-1 lg:ml-72 bg-[var(--smoky-black)] min-h-screen">
-        <main className="px-4 py-20 lg:px-8 lg:py-6">
-          {children}
-        </main>
-      </div>
+      {/* Main Content — grid column 2, minmax(0,1fr) guarantees children can shrink */}
+      <main className="min-w-0 pt-16 lg:pt-0">
+        {children}
+      </main>
     </div>
   );
 }

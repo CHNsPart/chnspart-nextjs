@@ -115,7 +115,7 @@ export async function createOrUpdateClient(contactData: ContactFormData, contact
 /**
  * Generate auto-tags based on contact form data
  */
-function getAutoTags(data: ContactFormData): string[] {
+export function getAutoTags(data: ContactFormData): string[] {
   const tags: string[] = [];
 
   // Budget-based tags

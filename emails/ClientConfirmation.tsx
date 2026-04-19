@@ -12,6 +12,11 @@ import {
   Link,
 } from '@react-email/components';
 import * as React from 'react';
+import {
+  PROJECT_TYPE_LABELS,
+  TIMELINE_LABELS,
+  BUDGET_LABELS,
+} from '@/lib/project-labels';
 
 interface ClientConfirmationEmailProps {
   fullname: string;
@@ -20,38 +25,15 @@ interface ClientConfirmationEmailProps {
   budget: string;
 }
 
-const PROJECT_TYPE_LABELS: { [key: string]: string } = {
-  'sweb': 'Static Website',
-  'aweb': 'Web Application',
-  'app': 'Mobile App',
-  'desktop': 'Desktop Application',
-  'ai': 'AI/ML Solution',
-  'ui': 'UI/UX Design',
-  'logo': 'Logo Design',
-  'branding': 'Branding'
-};
-
-const TIMELINE_LABELS: { [key: string]: string } = {
-  '1m': 'Within 1 month',
-  '1-3': '1-3 months',
-  '3-6': '3-6 months',
-  '6+': '6+ months'
-};
-
-const BUDGET_LABELS: { [key: string]: string } = {
-  'xs': '$1.5k - $5k',
-  'sm': '$5k - $10k',
-  'md': '$10k - $25k',
-  'lg': '$25k+'
-};
-
 export const ClientConfirmationEmail = ({
   fullname,
   projectType,
   timeline,
   budget,
 }: ClientConfirmationEmailProps) => {
-  const previewText = `Thank you for reaching out, ${fullname}! I'm excited about your ${PROJECT_TYPE_LABELS[projectType]} project.`;
+  const firstName = fullname.trim().split(' ')[0] || fullname;
+  const projectTypeLabel = PROJECT_TYPE_LABELS[projectType] || projectType;
+  const previewText = `Got your ${projectTypeLabel} brief, ${firstName} — I'll reply within 48 hours.`;
 
   return (
     <Html>
@@ -83,62 +65,60 @@ export const ClientConfirmationEmail = ({
 
           {/* Main Heading */}
           <Heading style={h1} className="heading">
-            Thank You for Reaching Out!
+            Got it, {firstName}.
           </Heading>
 
-          {/* Greeting */}
+          {/* Opening */}
           <Text style={text} className="text">
-            Hi {fullname},
-          </Text>
-
-          {/* Warm Introduction */}
-          <Text style={text} className="text">
-            I hope this message finds you well! Thank you so much for taking the time to share your
-            <strong style={highlight}> {PROJECT_TYPE_LABELS[projectType] || projectType}</strong> project
-            vision with me. I'm genuinely excited to learn more about what you're looking to build!
-          </Text>
-
-          <Text style={text} className="text">
-            Your inquiry means a lot to me, and I want to assure you that I'll give it the attention
-            and care it deserves. I believe great projects start with great communication, and I'm committed
-            to understanding your needs fully.
+            Your <strong style={highlight}>{projectTypeLabel}</strong> brief just
+            landed in my inbox. Thanks for thinking of me for this — I'll read through
+            it properly today.
           </Text>
 
           {/* Project Summary Box */}
           <Section style={summaryBox} className="summary-box">
             <Heading as="h2" style={h2}>
-              📋 Your Project Summary
+              Your brief at a glance
             </Heading>
             <table style={summaryTable}>
-              <tr>
-                <td style={labelCell}>Project Type:</td>
-                <td style={valueCell}>{PROJECT_TYPE_LABELS[projectType] || projectType}</td>
-              </tr>
-              <tr>
-                <td style={labelCell}>Timeline:</td>
-                <td style={valueCell}>{TIMELINE_LABELS[timeline] || timeline}</td>
-              </tr>
-              <tr>
-                <td style={labelCell}>Budget:</td>
-                <td style={valueCell}>{BUDGET_LABELS[budget] || budget}</td>
-              </tr>
+              <tbody>
+                <tr>
+                  <td style={labelCell}>Project:</td>
+                  <td style={valueCell}>{projectTypeLabel}</td>
+                </tr>
+                <tr>
+                  <td style={labelCell}>Timeline:</td>
+                  <td style={valueCell}>{TIMELINE_LABELS[timeline] || timeline}</td>
+                </tr>
+                <tr>
+                  <td style={labelCell}>Budget:</td>
+                  <td style={valueCell}>{BUDGET_LABELS[budget] || budget}</td>
+                </tr>
+              </tbody>
             </table>
           </Section>
 
-          {/* Response Time */}
+          {/* Next step */}
           <Text style={text} className="text">
-            I've carefully reviewed your project details and will get back to you within{' '}
-            <strong style={highlight}>24-48 hours</strong> with my thoughts, questions, and next steps.
+            <strong style={highlight}>What happens next:</strong> I'll review your brief
+            and reply within <strong style={highlight}>24–48 hours</strong> with a few
+            clarifying questions and next steps — usually a short call to scope things out.
           </Text>
 
-          {/* Portfolio CTA */}
+          {/* Helpful ask */}
           <Text style={text} className="text">
-            In the meantime, feel free to explore my portfolio at{' '}
-            <Link href="https://chnspart.com" style={linkStyle}>
-              chnspart.com
-            </Link>{' '}
-            to see some of the projects I've brought to life for other clients. I'd love for you to
-            get a sense of what we could create together!
+            <strong>One small thing that helps:</strong> if you have references, competitor
+            sites, a deck, or anything visual you like — just hit reply and send them over.
+            It sharpens my response and saves us a back-and-forth.
+          </Text>
+
+          {/* Portfolio */}
+          <Text style={text} className="text">
+            While you wait, you can browse recent work at{' '}
+            <Link href="https://chnspart.com/portfolio" style={linkStyle}>
+              chnspart.com/portfolio
+            </Link>
+            .
           </Text>
 
           {/* Divider */}
@@ -146,14 +126,12 @@ export const ClientConfirmationEmail = ({
 
           {/* Signature */}
           <Section style={signatureSection}>
-            <Text style={signatureName}>
-              Warm regards,
-            </Text>
+            <Text style={signatureName}>Talk soon,</Text>
             <Text style={signatureTitle}>
               <strong>Touhidul Islam Chayan</strong>
             </Text>
             <Text style={signatureRole}>
-              Full Stack Developer & UI/UX Designer
+              Full Stack Developer &amp; UI/UX Designer
             </Text>
             <Text style={signatureContact}>
               <Link href="https://chnspart.com" style={linkStyle}>
@@ -166,10 +144,8 @@ export const ClientConfirmationEmail = ({
             </Text>
           </Section>
 
-          {/* Footer Note */}
           <Text style={footerNote}>
-            This is an automated confirmation to let you know I've received your message.
-            I'll personally review your project and respond soon!
+            Automated confirmation — a real reply from me comes next.
           </Text>
         </Container>
       </Body>
@@ -177,22 +153,28 @@ export const ClientConfirmationEmail = ({
   );
 };
 
+ClientConfirmationEmail.PreviewProps = {
+  fullname: 'Jane Doe',
+  projectType: 'aweb',
+  timeline: '1-3',
+  budget: 'md',
+} satisfies ClientConfirmationEmailProps;
+
 export default ClientConfirmationEmail;
 
-// Styles using brand colors
 const main = {
-  backgroundColor: '#121212', // smoky-black
+  backgroundColor: '#121212',
   fontFamily: '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Ubuntu,sans-serif',
   padding: '20px 0',
 };
 
 const container = {
-  backgroundColor: '#1f1f1f', // eerie-black-1
+  backgroundColor: '#1f1f1f',
   margin: '0 auto',
   padding: '40px',
   maxWidth: '600px',
   borderRadius: '12px',
-  border: '1px solid #383838', // jet
+  border: '1px solid #383838',
 };
 
 const logoSection = {
@@ -206,7 +188,7 @@ const logo = {
 };
 
 const h1 = {
-  color: '#fafafa', // white-2
+  color: '#fafafa',
   fontSize: '28px',
   fontWeight: 'bold',
   margin: '0 0 24px 0',
@@ -215,30 +197,30 @@ const h1 = {
 };
 
 const h2 = {
-  color: '#fafafa', // white-2
+  color: '#fafafa',
   fontSize: '18px',
   fontWeight: 'bold',
   margin: '0 0 16px 0',
 };
 
 const text = {
-  color: '#e0e0e0', // light text
+  color: '#e0e0e0',
   fontSize: '16px',
   lineHeight: '1.6',
   margin: '0 0 16px 0',
 };
 
 const highlight = {
-  color: '#ffd95a', // orange-yellow-crayola
+  color: '#ffd95a',
   fontWeight: 'bold' as const,
 };
 
 const summaryBox = {
-  backgroundColor: '#2a2a2a', // slightly lighter than eerie-black
+  backgroundColor: '#2a2a2a',
   borderRadius: '8px',
   padding: '24px',
   margin: '24px 0',
-  border: '1px solid #ffd95a', // orange-yellow-crayola border
+  border: '1px solid #ffd95a',
 };
 
 const summaryTable = {
@@ -247,7 +229,7 @@ const summaryTable = {
 };
 
 const labelCell = {
-  color: '#c9a961', // vegas-gold
+  color: '#c9a961',
   fontSize: '15px',
   padding: '8px 12px 8px 0',
   fontWeight: '600' as const,
@@ -256,19 +238,19 @@ const labelCell = {
 };
 
 const valueCell = {
-  color: '#fafafa', // white-2
+  color: '#fafafa',
   fontSize: '15px',
   padding: '8px 0',
   fontWeight: '500' as const,
 };
 
 const linkStyle = {
-  color: '#ffd95a', // orange-yellow-crayola
+  color: '#ffd95a',
   textDecoration: 'underline',
 };
 
 const hr = {
-  borderColor: '#383838', // jet
+  borderColor: '#383838',
   margin: '32px 0',
 };
 
@@ -284,14 +266,14 @@ const signatureName = {
 };
 
 const signatureTitle = {
-  color: '#fafafa', // white-2
+  color: '#fafafa',
   fontSize: '18px',
   margin: '0 0 4px 0',
   lineHeight: '1.4',
 };
 
 const signatureRole = {
-  color: '#c9a961', // vegas-gold
+  color: '#c9a961',
   fontSize: '14px',
   margin: '0 0 12px 0',
   lineHeight: '1.4',

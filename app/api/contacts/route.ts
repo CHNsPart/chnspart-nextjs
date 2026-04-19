@@ -1,7 +1,7 @@
 import { prisma } from '@/lib/prisma';
 import { NextResponse } from 'next/server';
 import { sendContactFormEmails } from '@/lib/email';
-import { createOrUpdateClient } from '@/lib/client-service';
+import { createOrUpdateClient, getAutoTags } from '@/lib/client-service';
 
 export async function POST(request: Request) {
   try {
@@ -28,28 +28,7 @@ export async function POST(request: Request) {
       },
     });
 
-    // Auto-create or update client and project
-    // This runs async but we await it to ensure client is created
-    try {
-      const clientResult = await createOrUpdateClient({
-        fullname: data.fullname,
-        email: data.email,
-        projectType: data.projectType,
-        timeline: data.timeline,
-        budget: data.budget,
-        message: data.message,
-        requirements: data.requirements,
-      }, contact.id);
-      console.log('✅ Client created/updated successfully:', clientResult.client.email);
-    } catch (clientError) {
-      // Log but don't fail the contact creation
-      console.error('❌ Failed to create/update client:', clientError);
-      console.error('Error details:', JSON.stringify(clientError, null, 2));
-    }
-
-    // Send emails (don't await to avoid blocking response)
-    // Emails are sent asynchronously and failures won't block the submission
-    sendContactFormEmails({
+    const contactPayload = {
       fullname: data.fullname,
       email: data.email,
       projectType: data.projectType,
@@ -57,8 +36,24 @@ export async function POST(request: Request) {
       budget: data.budget,
       message: data.message,
       requirements: data.requirements || undefined,
+    };
+
+    let clientId: string | undefined;
+    try {
+      const clientResult = await createOrUpdateClient(contactPayload, contact.id);
+      clientId = clientResult.client.id;
+      console.log('✅ Client created/updated successfully:', clientResult.client.email);
+    } catch (clientError) {
+      console.error('❌ Failed to create/update client:', clientError);
+      console.error('Error details:', JSON.stringify(clientError, null, 2));
+    }
+
+    // Send emails (don't await to avoid blocking response)
+    sendContactFormEmails({
+      ...contactPayload,
+      clientId,
+      tags: getAutoTags(contactPayload),
     }).catch((error) => {
-      // Log email errors but don't fail the request
       console.error('Failed to send emails:', error);
     });
 

@@ -140,9 +140,9 @@ export const VENTURES: TimelineItem[] = [
           { text: "OonkoO", url: "https://oonkoo.com" },
           { text: "WhoWorksWhen", url: "https://whoworkswhen.com" },
           { text: "Sopee AI", url: "https://sopee-ai.vercel.app" },
-          { text: "Orbanas", url: "https://orbanas.com" },
-          { text: "TalkPDF", url: "https://talk-pdf-zeta.vercel.app/" },
-          { text: "StayScore", url: "https://stayscore.vercel.app/" },
+          { text: "Orbanas", url: "https://orbanas-landing.vercel.app" },
+          { text: "TalkPDF", url: "https://talk-pdf-zeta.vercel.app" },
+          { text: "StayScore", url: "https://stayscore.vercel.app" },
           { text: "Ontario Pulse", url: "https://ontariopulse.com" },
           { text: "Kolom AI", url: "https://kolom.ai" },
         ]
@@ -342,7 +342,7 @@ export const PORTFOLIO_ITEMS = [
     title: "Orbanas IT Agency",
     category: "Web development",
     image: "/images/orbanas.png",
-    link: "https://orbanas.com/"
+    link: "https://orbanas-landing.vercel.app"
   },
   {
     title: "Elan Branding",

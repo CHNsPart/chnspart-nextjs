@@ -12,6 +12,11 @@ import {
   Img,
 } from '@react-email/components';
 import * as React from 'react';
+import {
+  PROJECT_TYPE_LABELS,
+  TIMELINE_LABELS,
+  BUDGET_LABELS,
+} from '@/lib/project-labels';
 
 interface AdminNotificationEmailProps {
   fullname: string;
@@ -21,31 +26,23 @@ interface AdminNotificationEmailProps {
   budget: string;
   message: string;
   requirements?: string;
+  clientId?: string;
+  tags?: string[];
 }
 
-const PROJECT_TYPE_LABELS: { [key: string]: string } = {
-  'sweb': 'Static Website',
-  'aweb': 'Web Application',
-  'app': 'Mobile App',
-  'desktop': 'Desktop Application',
-  'ai': 'AI/ML Solution',
-  'ui': 'UI/UX Design',
-  'logo': 'Logo Design',
-  'branding': 'Branding'
+type PriorityBadge = {
+  label: string;
+  style: React.CSSProperties;
 };
 
-const TIMELINE_LABELS: { [key: string]: string } = {
-  '1m': 'Within 1 month',
-  '1-3': '1-3 months',
-  '3-6': '3-6 months',
-  '6+': '6+ months'
-};
-
-const BUDGET_LABELS: { [key: string]: string } = {
-  'xs': '$1.5k - $5k',
-  'sm': '$5k - $10k',
-  'md': '$10k - $25k',
-  'lg': '$25k+'
+const getPriorityBadge = (budget: string, timeline: string, tags: string[]): PriorityBadge => {
+  if (budget === 'lg' || tags.includes('high-budget') || tags.includes('enterprise')) {
+    return { label: '🔥 HIGH-BUDGET LEAD', style: badgeHigh };
+  }
+  if (timeline === '1m' || tags.includes('urgent')) {
+    return { label: '⚡ URGENT · 1 MONTH', style: badgeUrgent };
+  }
+  return { label: '📋 NEW LEAD', style: badgeDefault };
 };
 
 export const AdminNotificationEmail = ({
@@ -56,8 +53,24 @@ export const AdminNotificationEmail = ({
   budget,
   message,
   requirements,
+  clientId,
+  tags = [],
 }: AdminNotificationEmailProps) => {
-  const previewText = `New inquiry from ${fullname} - ${PROJECT_TYPE_LABELS[projectType]}`;
+  const projectTypeLabel = PROJECT_TYPE_LABELS[projectType] || projectType;
+  const budgetLabel = BUDGET_LABELS[budget] || budget;
+  const timelineLabel = TIMELINE_LABELS[timeline] || timeline;
+  const firstName = fullname.trim().split(' ')[0] || fullname;
+
+  const previewText = `${budgetLabel} · ${timelineLabel} · ${message.slice(0, 80)}${message.length > 80 ? '…' : ''}`;
+  const priority = getPriorityBadge(budget, timeline, tags);
+
+  const dashboardUrl = clientId
+    ? `https://chnspart.com/mmm/clients/${clientId}`
+    : 'https://chnspart.com/mmm/dashboard';
+  const dashboardLabel = clientId ? `Open ${firstName}'s client page` : 'View in Dashboard';
+
+  const replySubject = encodeURIComponent(`Re: your ${projectTypeLabel} inquiry`);
+  const replyMailto = `mailto:${email}?subject=${replySubject}`;
 
   return (
     <Html>
@@ -87,68 +100,84 @@ export const AdminNotificationEmail = ({
             />
           </Section>
 
-          {/* Alert Badge */}
+          {/* Priority Badge */}
           <Section style={badgeSection}>
-            <span style={badge}>🔔 NEW INQUIRY</span>
+            <span style={priority.style}>{priority.label}</span>
           </Section>
 
-          {/* Main Heading */}
+          {/* Headline summary */}
           <Heading style={h1} className="heading">
-            New Contact Form Submission
+            {fullname}
           </Heading>
-
-          {/* Quick Summary */}
           <Text style={alertText}>
-            <strong>{fullname}</strong> is interested in a{' '}
-            <strong style={highlight}>{PROJECT_TYPE_LABELS[projectType]}</strong> project
+            <strong style={highlight}>{budgetLabel}</strong>
+            {' · '}
+            <strong>{projectTypeLabel}</strong>
+            {' · '}
+            {timelineLabel}
           </Text>
+
+          {/* Tags pill row */}
+          {tags.length > 0 && (
+            <Section style={tagsSection}>
+              {tags.map((tag) => (
+                <span key={tag} style={tagPill}>
+                  {tag}
+                </span>
+              ))}
+            </Section>
+          )}
 
           {/* Client Information Box */}
           <Section style={infoBox} className="info-box">
             <Heading as="h2" style={h2}>
-              👤 Client Information
+              Client
             </Heading>
             <table style={infoTable}>
-              <tr>
-                <td style={labelCell}>Name:</td>
-                <td style={valueCell}>{fullname}</td>
-              </tr>
-              <tr>
-                <td style={labelCell}>Email:</td>
-                <td style={valueCell}>
-                  <Link href={`mailto:${email}`} style={emailLink}>
-                    {email}
-                  </Link>
-                </td>
-              </tr>
+              <tbody>
+                <tr>
+                  <td style={labelCell}>Name:</td>
+                  <td style={valueCell}>{fullname}</td>
+                </tr>
+                <tr>
+                  <td style={labelCell}>Email:</td>
+                  <td style={valueCell}>
+                    <Link href={`mailto:${email}`} style={emailLink}>
+                      {email}
+                    </Link>
+                  </td>
+                </tr>
+              </tbody>
             </table>
           </Section>
 
           {/* Project Details Box */}
           <Section style={infoBox} className="info-box">
             <Heading as="h2" style={h2}>
-              📊 Project Details
+              Project
             </Heading>
             <table style={infoTable}>
-              <tr>
-                <td style={labelCell}>Project Type:</td>
-                <td style={valueCell}>{PROJECT_TYPE_LABELS[projectType] || projectType}</td>
-              </tr>
-              <tr>
-                <td style={labelCell}>Timeline:</td>
-                <td style={valueCell}>{TIMELINE_LABELS[timeline] || timeline}</td>
-              </tr>
-              <tr>
-                <td style={labelCell}>Budget:</td>
-                <td style={valueCell}>{BUDGET_LABELS[budget] || budget}</td>
-              </tr>
+              <tbody>
+                <tr>
+                  <td style={labelCell}>Type:</td>
+                  <td style={valueCell}>{projectTypeLabel}</td>
+                </tr>
+                <tr>
+                  <td style={labelCell}>Timeline:</td>
+                  <td style={valueCell}>{timelineLabel}</td>
+                </tr>
+                <tr>
+                  <td style={labelCell}>Budget:</td>
+                  <td style={valueCell}>{budgetLabel}</td>
+                </tr>
+              </tbody>
             </table>
           </Section>
 
           {/* Message Box */}
           <Section style={messageBox}>
             <Heading as="h2" style={h2}>
-              💬 Project Description
+              Description
             </Heading>
             <Text style={messageText}>{message}</Text>
           </Section>
@@ -157,7 +186,7 @@ export const AdminNotificationEmail = ({
           {requirements && (
             <Section style={requirementsBox}>
               <Heading as="h2" style={h2}>
-                ⚙️ Technical Requirements
+                Technical requirements
               </Heading>
               <Text style={messageText}>{requirements}</Text>
             </Section>
@@ -166,29 +195,29 @@ export const AdminNotificationEmail = ({
           {/* Action Buttons */}
           <Section style={actionSection}>
             <table style={buttonTable}>
-              <tr>
-                <td style={buttonCell}>
-                  <Link href="https://chnspart.com/mmm/dashboard" style={primaryButton} className="button">
-                    📋 View in Dashboard
-                  </Link>
-                </td>
-              </tr>
-              <tr>
-                <td style={buttonCell}>
-                  <Link href={`mailto:${email}`} style={secondaryButton} className="button">
-                    ✉️ Reply to {fullname.split(' ')[0]}
-                  </Link>
-                </td>
-              </tr>
+              <tbody>
+                <tr>
+                  <td style={buttonCell}>
+                    <Link href={dashboardUrl} style={primaryButton} className="button">
+                      {dashboardLabel}
+                    </Link>
+                  </td>
+                </tr>
+                <tr>
+                  <td style={buttonCell}>
+                    <Link href={replyMailto} style={secondaryButton} className="button">
+                      Reply to {firstName}
+                    </Link>
+                  </td>
+                </tr>
+              </tbody>
             </table>
           </Section>
 
-          {/* Divider */}
           <Hr style={hr} />
 
-          {/* Footer */}
           <Text style={footer}>
-            This notification was automatically generated from the contact form at{' '}
+            Sent from the contact form at{' '}
             <Link href="https://chnspart.com/contact" style={linkStyle}>
               chnspart.com
             </Link>
@@ -199,22 +228,35 @@ export const AdminNotificationEmail = ({
   );
 };
 
+AdminNotificationEmail.PreviewProps = {
+  fullname: 'Jane Doe',
+  email: 'jane@example.com',
+  projectType: 'ai',
+  timeline: '1m',
+  budget: 'lg',
+  message:
+    'We need an AI-powered document analysis tool for internal use. Roughly 50 employees, needs SSO, integrates with our existing Google Drive. Timeline is tight because of a Q2 board demo.',
+  requirements:
+    'Must support OCR for scanned PDFs, redaction of PII before LLM calls, audit logging per query, and role-based access control. Hosted on our own AWS account preferred.',
+  clientId: 'preview-client-id',
+  tags: ['high-budget', 'urgent', 'ai-ml', 'technical', 'cutting-edge', 'detailed-requirements'],
+} satisfies AdminNotificationEmailProps;
+
 export default AdminNotificationEmail;
 
-// Styles using brand colors
 const main = {
-  backgroundColor: '#121212', // smoky-black
+  backgroundColor: '#121212',
   fontFamily: '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Ubuntu,sans-serif',
   padding: '20px 0',
 };
 
 const container = {
-  backgroundColor: '#1f1f1f', // eerie-black-1
+  backgroundColor: '#1f1f1f',
   margin: '0 auto',
   padding: '40px',
   maxWidth: '650px',
   borderRadius: '12px',
-  border: '1px solid #383838', // jet
+  border: '1px solid #383838',
 };
 
 const logoSection = {
@@ -232,44 +274,79 @@ const badgeSection = {
   marginBottom: '16px',
 };
 
-const badge = {
+const badgeBase: React.CSSProperties = {
   display: 'inline-block',
-  backgroundColor: '#ffd95a', // orange-yellow-crayola
-  color: '#1f1f1f',
   padding: '8px 16px',
   borderRadius: '20px',
   fontSize: '12px',
-  fontWeight: 'bold' as const,
+  fontWeight: 'bold',
   letterSpacing: '0.5px',
 };
 
+const badgeDefault: React.CSSProperties = {
+  ...badgeBase,
+  backgroundColor: '#ffd95a',
+  color: '#1f1f1f',
+};
+
+const badgeHigh: React.CSSProperties = {
+  ...badgeBase,
+  backgroundColor: '#ff6b35',
+  color: '#ffffff',
+};
+
+const badgeUrgent: React.CSSProperties = {
+  ...badgeBase,
+  backgroundColor: '#c9a961',
+  color: '#1f1f1f',
+};
+
 const h1 = {
-  color: '#fafafa', // white-2
+  color: '#fafafa',
   fontSize: '26px',
   fontWeight: 'bold',
-  margin: '0 0 16px 0',
+  margin: '0 0 8px 0',
   textAlign: 'center' as const,
   lineHeight: '1.2',
 };
 
 const h2 = {
-  color: '#fafafa', // white-2
+  color: '#fafafa',
   fontSize: '16px',
   fontWeight: 'bold',
   margin: '0 0 12px 0',
 };
 
 const alertText = {
-  color: '#ffd95a', // orange-yellow-crayola
+  color: '#e0e0e0',
   fontSize: '16px',
   textAlign: 'center' as const,
-  margin: '0 0 24px 0',
+  margin: '0 0 16px 0',
   lineHeight: '1.5',
 };
 
 const highlight = {
-  color: '#c9a961', // vegas-gold
+  color: '#ffd95a',
   fontWeight: 'bold' as const,
+};
+
+const tagsSection = {
+  textAlign: 'center' as const,
+  margin: '0 0 24px 0',
+  lineHeight: '2',
+};
+
+const tagPill: React.CSSProperties = {
+  display: 'inline-block',
+  backgroundColor: '#2a2a2a',
+  color: '#c9a961',
+  border: '1px solid #383838',
+  padding: '4px 10px',
+  borderRadius: '12px',
+  fontSize: '12px',
+  fontWeight: 600,
+  margin: '0 4px 4px 0',
+  lineHeight: '1.4',
 };
 
 const infoBox = {
@@ -277,7 +354,7 @@ const infoBox = {
   borderRadius: '8px',
   padding: '20px',
   margin: '16px 0',
-  border: '1px solid #383838', // jet
+  border: '1px solid #383838',
 };
 
 const messageBox = {
@@ -285,7 +362,7 @@ const messageBox = {
   borderRadius: '8px',
   padding: '20px',
   margin: '16px 0',
-  border: '1px solid #ffd95a', // orange-yellow-crayola border for emphasis
+  border: '1px solid #ffd95a',
 };
 
 const requirementsBox = {
@@ -293,7 +370,7 @@ const requirementsBox = {
   borderRadius: '8px',
   padding: '20px',
   margin: '16px 0',
-  border: '1px solid #c9a961', // vegas-gold border
+  border: '1px solid #c9a961',
 };
 
 const infoTable = {
@@ -302,7 +379,7 @@ const infoTable = {
 };
 
 const labelCell = {
-  color: '#c9a961', // vegas-gold
+  color: '#c9a961',
   fontSize: '14px',
   padding: '6px 12px 6px 0',
   fontWeight: '600' as const,
@@ -311,7 +388,7 @@ const labelCell = {
 };
 
 const valueCell = {
-  color: '#fafafa', // white-2
+  color: '#fafafa',
   fontSize: '14px',
   padding: '6px 0',
   fontWeight: '500' as const,
@@ -340,7 +417,7 @@ const buttonCell = {
 };
 
 const primaryButton = {
-  backgroundColor: '#ffd95a', // orange-yellow-crayola
+  backgroundColor: '#ffd95a',
   color: '#1f1f1f',
   fontSize: '16px',
   fontWeight: 'bold' as const,
@@ -353,7 +430,7 @@ const primaryButton = {
 
 const secondaryButton = {
   backgroundColor: 'transparent',
-  color: '#ffd95a', // orange-yellow-crayola
+  color: '#ffd95a',
   fontSize: '15px',
   fontWeight: '600' as const,
   textDecoration: 'none',
@@ -365,17 +442,17 @@ const secondaryButton = {
 };
 
 const emailLink = {
-  color: '#ffd95a', // orange-yellow-crayola
+  color: '#ffd95a',
   textDecoration: 'underline',
 };
 
 const linkStyle = {
-  color: '#ffd95a', // orange-yellow-crayola
+  color: '#ffd95a',
   textDecoration: 'underline',
 };
 
 const hr = {
-  borderColor: '#383838', // jet
+  borderColor: '#383838',
   margin: '32px 0',
 };
 

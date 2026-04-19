@@ -3,8 +3,11 @@ import { render } from '@react-email/components';
 import React from 'react';
 import ClientConfirmationEmail from '@/emails/ClientConfirmation';
 import AdminNotificationEmail from '@/emails/AdminNotification';
+import {
+  PROJECT_TYPE_LABELS,
+  BUDGET_LABELS,
+} from '@/lib/project-labels';
 
-// Initialize Resend with API key
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 interface ContactFormData {
@@ -15,6 +18,11 @@ interface ContactFormData {
   budget: string;
   message: string;
   requirements?: string;
+}
+
+interface AdminEmailData extends ContactFormData {
+  clientId?: string;
+  tags?: string[];
 }
 
 /**
@@ -31,21 +39,17 @@ export async function sendClientConfirmationEmail(data: ContactFormData) {
       })
     );
 
-    console.log('📧 Rendered email HTML type:', typeof emailHtml);
-
-    // Use Resend's test domain for development until chnspart.com is verified
-    // Change this to 'CHNsPart <noreply@chnspart.com>' after domain verification
     const fromEmail = process.env.NODE_ENV === 'production'
       ? 'CHNsPart <noreply@chnspart.com>'
       : 'Acme <onboarding@resend.dev>';
 
-    // In development with test domain, we can only send to the Resend account owner
-    // So send to admin email instead with a note about the intended recipient
     const isDevelopment = process.env.NODE_ENV !== 'production';
     const recipientEmail = isDevelopment ? 'imchn24@gmail.com' : data.email;
+    const firstName = data.fullname.trim().split(' ')[0] || data.fullname;
+    const subjectBase = `Thanks, ${firstName} — I'll be in touch within 48 hours`;
     const subject = isDevelopment
-      ? `[TEST - For: ${data.email}] Thank you for your project inquiry!`
-      : 'Thank you for your project inquiry!';
+      ? `[TEST - For: ${data.email}] ${subjectBase}`
+      : subjectBase;
 
     const result = await resend.emails.send({
       from: fromEmail,
@@ -74,7 +78,7 @@ export async function sendClientConfirmationEmail(data: ContactFormData) {
 /**
  * Send notification email to admin about new contact form submission
  */
-export async function sendAdminNotificationEmail(data: ContactFormData) {
+export async function sendAdminNotificationEmail(data: AdminEmailData) {
   try {
     const emailHtml = await render(
       React.createElement(AdminNotificationEmail, {
@@ -85,23 +89,25 @@ export async function sendAdminNotificationEmail(data: ContactFormData) {
         budget: data.budget,
         message: data.message,
         requirements: data.requirements,
+        clientId: data.clientId,
+        tags: data.tags,
       })
     );
 
-    console.log('📧 Rendered admin email HTML type:', typeof emailHtml);
-
-    // Use Resend's test domain for development until chnspart.com is verified
-    // Change this to 'CHNsPart Contact Form <noreply@chnspart.com>' after domain verification
     const fromEmail = process.env.NODE_ENV === 'production'
       ? 'CHNsPart Contact Form <noreply@chnspart.com>'
       : 'Acme <onboarding@resend.dev>';
 
+    const projectTypeLabel = PROJECT_TYPE_LABELS[data.projectType] || data.projectType;
+    const budgetLabel = BUDGET_LABELS[data.budget] || data.budget;
+    const subject = `New lead — ${budgetLabel} · ${projectTypeLabel} — ${data.fullname}`;
+
     const result = await resend.emails.send({
       from: fromEmail,
       to: 'imchn24@gmail.com',
-      subject: `New Contact Form: ${data.fullname} - ${data.projectType}`,
+      subject,
       html: emailHtml,
-      replyTo: data.email, // Allow admin to reply directly to client
+      replyTo: data.email,
     });
 
     console.log('✅ Admin notification email sent successfully:', result);
@@ -122,33 +128,29 @@ export async function sendAdminNotificationEmail(data: ContactFormData) {
  * Send both confirmation and notification emails
  * Returns success even if emails fail (don't block form submission)
  */
-export async function sendContactFormEmails(data: ContactFormData) {
+export async function sendContactFormEmails(data: AdminEmailData) {
   const results = {
     clientEmail: { success: false, error: null as unknown },
     adminEmail: { success: false, error: null as unknown },
   };
 
-  // Send emails in parallel
   const [clientResult, adminResult] = await Promise.allSettled([
     sendClientConfirmationEmail(data),
     sendAdminNotificationEmail(data),
   ]);
 
-  // Process client email result
   if (clientResult.status === 'fulfilled') {
     results.clientEmail = clientResult.value;
   } else {
     results.clientEmail = { success: false, error: clientResult.reason as unknown };
   }
 
-  // Process admin email result
   if (adminResult.status === 'fulfilled') {
     results.adminEmail = adminResult.value;
   } else {
     results.adminEmail = { success: false, error: adminResult.reason as unknown };
   }
 
-  // Log results
   console.log('Email sending results:', {
     clientEmailSent: results.clientEmail.success,
     adminEmailSent: results.adminEmail.success,
