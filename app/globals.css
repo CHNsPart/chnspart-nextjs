@@ -577,6 +577,97 @@ main {
   color: var(--orange-yellow-crayola);
 }
 
+.navbar-icon {
+  display: none;
+}
+
+/*-----------------------------------*\
+  #NAVBAR BRAND (easter-egg orb)
+\*-----------------------------------*/
+
+.navbar-brand {
+  transform-origin: 50% 50%;
+  will-change: transform, filter;
+  animation:
+    orb-spin 4.8s infinite,
+    orb-glow 4.8s ease-in-out infinite;
+}
+
+.navbar-link:hover .navbar-brand,
+.navbar-link:focus-visible .navbar-brand {
+  animation-play-state: paused;
+}
+
+/*
+  Spring-rhythm spin:
+    0–40%   : slow drift (feels idle/alive)
+    40–65%  : rapid multi-spin (~4 full turns in ~1.2s)
+    65–80%  : overshoot + damped settle (the "spring" bounce)
+    80–100% : pause before next cycle
+  Rotation lands on a 360° multiple so the loop restart is seamless.
+*/
+@keyframes orb-spin {
+  0% {
+    transform: rotate(0deg);
+    animation-timing-function: cubic-bezier(0.4, 0, 0.6, 1);
+  }
+  40% {
+    transform: rotate(40deg);
+    animation-timing-function: cubic-bezier(0.7, 0, 0.2, 1);
+  }
+  65% {
+    transform: rotate(1440deg);
+    animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  72% {
+    transform: rotate(1462deg);
+    animation-timing-function: cubic-bezier(0.5, 0, 0.5, 1);
+  }
+  78% {
+    transform: rotate(1432deg);
+    animation-timing-function: cubic-bezier(0.5, 0, 0.5, 1);
+  }
+  83% {
+    transform: rotate(1440deg);
+  }
+  100% {
+    transform: rotate(1440deg);
+  }
+}
+
+/* Layered multi-hue halo — soft ambient while idle, intense AI-orb burst during the spin. */
+@keyframes orb-glow {
+  0%, 38% {
+    filter:
+      drop-shadow(0 0 3px hsla(45, 100%, 72%, 0.35))
+      drop-shadow(0 0 8px hsla(200, 100%, 62%, 0.18));
+  }
+  55% {
+    filter:
+      drop-shadow(0 0 7px hsla(45, 100%, 72%, 0.65))
+      drop-shadow(0 0 16px hsla(280, 85%, 65%, 0.38))
+      drop-shadow(0 0 26px hsla(200, 100%, 60%, 0.32));
+  }
+  70% {
+    filter:
+      drop-shadow(0 0 9px hsla(45, 100%, 72%, 0.75))
+      drop-shadow(0 0 20px hsla(280, 85%, 65%, 0.45))
+      drop-shadow(0 0 32px hsla(200, 100%, 60%, 0.35));
+  }
+  85%, 100% {
+    filter:
+      drop-shadow(0 0 3px hsla(45, 100%, 72%, 0.35))
+      drop-shadow(0 0 8px hsla(200, 100%, 62%, 0.18));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .navbar-brand {
+    animation: none;
+    filter: drop-shadow(0 0 4px hsla(45, 100%, 72%, 0.3));
+  }
+}
+
 /*-----------------------------------*\
   #ABOUT
 \*-----------------------------------*/
@@ -1926,6 +2017,104 @@ textarea.form-input::-webkit-resizer {
   .form-btn {
     width: max-content;
     margin-left: auto;
+  }
+}
+
+/**
+ * mobile + tablet — floating app-bar style navbar (desktop is untouched)
+ */
+
+@media (max-width: 1023.98px) {
+  .navbar {
+    position: fixed;
+    left: 12px;
+    right: 12px;
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    width: auto;
+    background:
+      linear-gradient(180deg, hsla(240, 1%, 22%, 0.85) 0%, hsla(240, 2%, 12%, 0.88) 100%);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid hsla(0, 0%, 0%, 0.5);
+    border-radius: 999px;
+    box-shadow:
+      inset 0 1px 0 hsla(0, 0%, 100%, 0.08),
+      inset 0 -1px 0 hsla(0, 0%, 0%, 0.5),
+      0 10px 24px hsla(0, 0%, 0%, 0.35);
+    padding: 0;
+  }
+
+  .navbar-list {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 8px;
+  }
+
+  .navbar-item {
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+    justify-content: center;
+  }
+
+  /* DOM order stays About, Resume, Portfolio, Contact, ✨ — so desktop is untouched.
+     On mobile we reflow visually to put the ✨ item (last in DOM) in the middle. */
+  .navbar-item:nth-child(1) { order: 1; }
+  .navbar-item:nth-child(2) { order: 2; }
+  .navbar-item:nth-child(3) { order: 4; }
+  .navbar-item:nth-child(4) { order: 5; }
+  .navbar-item:nth-child(5) { order: 3; }
+
+  .navbar-link {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    width: 100%;
+    min-height: 52px;
+    padding: 8px 6px;
+    border-radius: 999px;
+    color: var(--light-gray);
+    font-size: 11px;
+    line-height: 1;
+    letter-spacing: 0.2px;
+    text-align: center;
+    transition: color var(--transition-1), background var(--transition-1),
+      box-shadow var(--transition-1), transform var(--transition-1);
+  }
+
+  .navbar-link:hover,
+  .navbar-link:focus-visible {
+    color: var(--white-2);
+    background: hsla(0, 0%, 100%, 0.04);
+  }
+
+  .navbar-link:active {
+    transform: scale(0.96);
+  }
+
+  .navbar-link.active {
+    color: var(--orange-yellow-crayola);
+    background:
+      linear-gradient(180deg,
+        hsla(45, 100%, 72%, 0.24) 0%,
+        hsla(45, 100%, 50%, 0.06) 100%);
+    box-shadow:
+      inset 0 1px 0 hsla(0, 0%, 100%, 0.60),
+      inset 0 2px 6px hsla(0, 0%, 100%, 0.18),
+      inset 0 -2px 5px hsla(0, 0%, 0%, 0.20),
+      inset 0 0 0 1px hsla(0, 0%, 100%, 0.14),
+      0 2px 4px hsla(0, 0%, 0%, 0.12),
+      0 10px 28px hsla(0, 0%, 0%, 0.20);
+  }
+
+  .navbar-icon {
+    display: block;
   }
 }
 

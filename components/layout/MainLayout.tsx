@@ -16,7 +16,7 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
 
   return (
     <main className={`
-      mx-[15px] mb-[75px] min-w-[259px]
+      mx-[15px] mb-[96px] min-w-[259px]
       md:mx-auto md:mt-[60px] md:mb-[100px]
       xl:max-w-[1200px] xl:flex xl:justify-center xl:items-stretch xl:gap-6
     `}>
