@@ -5,13 +5,6 @@
   "installCommand": "npm install",
   "framework": "nextjs",
   "regions": ["iad1"],
-  "redirects": [
-    {
-      "source": "/www.chnspart.com",
-      "destination": "https://chnspart.com",
-      "permanent": true
-    }
-  ],
   "headers": [
     {
       "source": "/(.*)",

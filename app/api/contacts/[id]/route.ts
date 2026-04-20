@@ -46,7 +46,10 @@ export async function DELETE(
   } catch (error) {
     console.error('Error deleting contact:', error);
     return NextResponse.json(
-      { error: 'Error deleting contact' },
+      {
+        error: 'Error deleting contact',
+        details: process.env.NODE_ENV === 'development' ? (error as Error).message : undefined,
+      },
       { status: 500 }
     );
   }
