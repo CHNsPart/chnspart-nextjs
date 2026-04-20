@@ -3,14 +3,13 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { User, FileText, Briefcase, Mail } from 'lucide-react';
 import Image from 'next/image';
 
 const navItems = [
-  { label: 'About', href: '/', icon: User },
-  { label: 'Resume', href: '/resume', icon: FileText },
-  { label: 'Portfolio', href: '/portfolio', icon: Briefcase },
-  { label: 'Contact', href: '/contact', icon: Mail },
+  { label: 'About', href: '/' },
+  { label: 'Resume', href: '/resume' },
+  { label: 'Portfolio', href: '/portfolio' },
+  { label: 'Contact', href: '/contact' },
 ];
 
 export default function Navbar() {
@@ -25,22 +24,18 @@ export default function Navbar() {
   return (
     <nav className="navbar z-50">
       <ul className="z-50 navbar-list">
-        {navItems.map((item) => {
-          const Icon = item.icon;
-          return (
-            <li key={item.label} className="z-50 navbar-item">
-              <Link
-                href={item.href}
-                className={`navbar-link z-50 ${activeItem === item.label ? 'active' : ''}`}
-                onClick={() => setActiveItem(item.label)}
-                aria-label={item.label}
-              >
-                <Icon className="navbar-icon" size={20} strokeWidth={1.75} aria-hidden="true" />
-                <span>{item.label}</span>
-              </Link>
-            </li>
-          );
-        })}
+        {navItems.map((item) => (
+          <li key={item.label} className="z-50 navbar-item">
+            <Link
+              href={item.href}
+              className={`navbar-link z-50 ${activeItem === item.label ? 'active' : ''}`}
+              onClick={() => setActiveItem(item.label)}
+              aria-label={item.label}
+            >
+              <span>{item.label}</span>
+            </Link>
+          </li>
+        ))}
         <li className="navbar-item">
           <Link
             href="https://root.chnspart.com"

@@ -577,10 +577,6 @@ main {
   color: var(--orange-yellow-crayola);
 }
 
-.navbar-icon {
-  display: none;
-}
-
 /*-----------------------------------*\
   #NAVBAR BRAND (easter-egg orb)
 \*-----------------------------------*/
@@ -593,9 +589,15 @@ main {
     orb-glow 4.8s ease-in-out infinite;
 }
 
-.navbar-link:hover .navbar-brand,
-.navbar-link:focus-visible .navbar-brand {
-  animation-play-state: paused;
+/* Hover/focus: keep the spin going, add a persistent amplified halo via the
+   parent link's filter so it stacks with (rather than overrides) the orb's own
+   animated drop-shadow. */
+.navbar-link:has(.navbar-brand):hover,
+.navbar-link:has(.navbar-brand):focus-visible {
+  filter:
+    drop-shadow(0 0 6px hsla(45, 100%, 72%, 0.55))
+    drop-shadow(0 0 18px hsla(280, 85%, 65%, 0.40))
+    drop-shadow(0 0 32px hsla(200, 100%, 60%, 0.28));
 }
 
 /*
@@ -2111,10 +2113,6 @@ textarea.form-input::-webkit-resizer {
       inset 0 0 0 1px hsla(0, 0%, 100%, 0.14),
       0 2px 4px hsla(0, 0%, 0%, 0.12),
       0 10px 28px hsla(0, 0%, 0%, 0.20);
-  }
-
-  .navbar-icon {
-    display: block;
   }
 }
 
