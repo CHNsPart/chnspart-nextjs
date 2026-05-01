@@ -352,7 +352,7 @@ export const PORTFOLIO_ITEMS = [
     title: "Taqneo",
     category: "Web development",
     image: "/images/taqneo.png",
-    link: "#"
+    link: "https://taqneo.com/"
   },
   {
     title: "OonkoO Platform",
