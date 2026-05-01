@@ -9,7 +9,7 @@ import { EDUCATION, VENTURES, FREELANCE, PROFESSIONAL_EXPERIENCE, TECH_STACK, SK
 export default function Resume() {
   const handleDownload = () => {
     // Replace this URL with your actual resume PDF URL
-    const resumeUrl = "/resume/TIC_Resume_2025.pdf";
+    const resumeUrl = "/resume/TIC_Resume_2026.pdf";
     window.open(resumeUrl, '_blank');
   };
 
