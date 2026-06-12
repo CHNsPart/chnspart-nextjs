@@ -355,10 +355,10 @@ export const PORTFOLIO_ITEMS = [
     link: "https://taqneo.com/"
   },
   {
-    title: "OonkoO Platform",
+    title: "OonkoO 2025",
     category: "Web development",
     image: "/images/oonkoo-neo.png",
-    link: "https://oonkoo.com/"
+    link: "https://oonkoo-d6g9vgvcn-touhidul-islam-chayans-projects.vercel.app/"
   },
   {
     title: "Sopee.ai",
