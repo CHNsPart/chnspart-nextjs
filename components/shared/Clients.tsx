@@ -1,5 +1,4 @@
 // components/shared/Clients.tsx
-import Image from "next/image";
 import { CLIENTS } from "@/lib/constants";
 
 export const Clients = () => {
@@ -11,11 +10,13 @@ export const Clients = () => {
         {CLIENTS.map((client, index) => (
           <li key={index} className="clients-item">
             <span>
-              <Image 
-                src={client.logo} 
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={client.logo}
                 alt={`${client.name} logo`}
                 width={200}
                 height={100}
+                loading="lazy"
               />
             </span>
           </li>

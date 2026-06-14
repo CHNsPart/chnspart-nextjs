@@ -1,4 +1,3 @@
-// components/shared/SocialLinks.tsx
 import Link from 'next/link';
 import { FaBehance, FaDribbble, FaLinkedin, FaGithub, FaFacebook, FaInstagram } from "react-icons/fa";
 
@@ -15,7 +14,7 @@ const socialLinks = [
   },
   { 
     icon: FaLinkedin, 
-    href: 'https://www.linkedin.com/in/touhidul-islam-chayan-50b857143/',
+    href: 'https://www.linkedin.com/in/chnspart',
     label: 'LinkedIn Profile'
   },
   { 

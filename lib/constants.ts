@@ -57,14 +57,25 @@ export const TESTIMONIALS = [
 ];
 
 export const CLIENTS = [
-  { name: "Mindshare", logo: "/images/mindshare.png" },
-  { name: "City Group", logo: "/images/citygroup.png" },
-  { name: "AD-IQ", logo: "/images/adiq.png" },
-  { name: "Yunus Center", logo: "/images/yunuscenter.png" },
-  { name: "YY Studio", logo: "/images/yystudio.png" },
-  { name: "YY Venture", logo: "/images/yyventure.png" },
-  { name: "Booring Platform", logo: "/images/booring.png" },
-  { name: "Ban Base", logo: "/images/banbase.png" }
+  { name: "Red Planet Empire", logo: "/clients-logo/redplanet.svg" },
+  { name: "Ranin Internationals", logo: "/clients-logo/ranin.png" },
+  { name: "Elan Road Test Rental", logo: "/clients-logo/elan.svg" },
+  { name: "Lienzo", logo: "/clients-logo/lienzo.svg" },
+  { name: "Ranin Internationals", logo: "/clients-logo/omni.svg" },
+  { name: "Kolom AI", logo: "/clients-logo/kolom.svg" },
+  { name: "Glauco Shield AI", logo: "/clients-logo/glauco-sheild.svg" },
+  { name: "GLO", logo: "/clients-logo/glo.png" },
+  { name: "Taqneo NEO ID", logo: "/clients-logo/taqneo.svg" },
+  { name: "Sama International", logo: "/clients-logo/sama.png" },
+  { name: "Mindshare", logo: "/clients-logo/mindshare.png" },
+  { name: "OonkoO", logo: "/clients-logo/oonkoo.svg" },
+  { name: "City Group", logo: "/clients-logo/citygroup.png" },
+  { name: "AD-IQ", logo: "/clients-logo/adiq.png" },
+  { name: "Yunus Center", logo: "/clients-logo/yunuscenter.png" },
+  { name: "YY Studio", logo: "/clients-logo/yystudio.png" },
+  { name: "YY Venture", logo: "/clients-logo/yyventure.png" },
+  { name: "Booring Platform", logo: "/clients-logo/booring.png" },
+  { name: "Ban Base", logo: "/clients-logo/banbase.svg" }
 ];
 
 export const EDUCATION: TimelineItem[] = [
@@ -355,10 +366,10 @@ export const PORTFOLIO_ITEMS = [
     link: "https://taqneo.com/"
   },
   {
-    title: "OonkoO 2025",
+    title: "OonkoO Platform",
     category: "Web development",
-    image: "/images/oonkoo-neo.png",
-    link: "https://oonkoo-d6g9vgvcn-touhidul-islam-chayans-projects.vercel.app/"
+    image: "/images/oonkoo-platform.png",
+    link: "https://oonkoo.com"
   },
   {
     title: "Sopee.ai",
@@ -383,6 +394,12 @@ export const PORTFOLIO_ITEMS = [
     category: "Web development",
     image: "/images/oonkoo-ui.png",
     link: "https://ui.oonkoo.com"
+  },
+  {
+    title: "OonkoO 2025",
+    category: "Web development",
+    image: "/images/oonkoo-neo.png",
+    link: "https://oonkoo-d6g9vgvcn-touhidul-islam-chayans-projects.vercel.app/"
   },
   {
     title: "Ranin International",

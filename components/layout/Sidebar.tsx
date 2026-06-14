@@ -108,7 +108,7 @@ export default function Sidebar() {
             </div>
             <div className="contact-info">
               <p className="contact-title">Location</p>
-              <address>Peterborough, Ontario, Canada</address>
+              <address>Toronto, Ontario, Canada</address>
             </div>
           </li>
         </ul>

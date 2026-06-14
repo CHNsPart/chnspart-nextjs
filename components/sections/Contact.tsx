@@ -197,7 +197,7 @@ export default function Contact() {
         transition={{ delay: 0.3 }}
       >
         <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d11420.114250423369!2d-78.33353679790835!3d44.30936331569579!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89d58c9312853901%3A0xee2341b4e02f22d0!2s227%20McDonnel%20St%2C%20Peterborough%2C%20ON%20K9H%202W1!5e0!3m2!1sen!2sca!4v1697403960683!5m2!1sen!2sca"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2886.317237423178!2d-79.38564932358888!3d43.66237167110161!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x882b34b48b2021df%3A0xc8d2d92359a6ff82!2s475%20Yonge%20St%2C%20Toronto%2C%20ON%20M4Y%201X7!5e0!3m2!1sen!2sca!4v1781417609215!5m2!1sen!2sca"
           width="100%"
           height="100%"
           style={{ border: 0, filter: 'grayscale(1) invert(1)' }}
